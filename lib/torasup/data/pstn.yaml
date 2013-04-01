@@ -1,0 +1,58 @@
+---
+kh:
+  # http://en.wikipedia.org/wiki/Telephone_numbers_in_Cambodia
+  international_dialing_code: "855"
+  area_codes:
+    "23": "Phnom Penh"
+    "24": "Kandal"
+    "25": "Kampong Speu"
+    "26": "Kampong Chhnang"
+    "32": "Takeo"
+    "33": "Kampot"
+    "34": "Sihanoukville"
+    "35": "Koh Kong"
+    "36": "Kep"
+    "42": "Kampong Cham"
+    "43": "Prey Veng"
+    "44": "Svay Rieng"
+    "52": "Pursat"
+    "53": "Battambang"
+    "54": "Banteay Meanchey"
+    "55": "Pailin"
+    "62": "Kampong Thom"
+    "63": "Siem Reap"
+    "64": "Preah Vihear"
+    "65": "Oddar Meanchey"
+    "72": "Kratie"
+    "73": "Mondulkiri"
+    "74": "Stung Treng"
+    "75": "Ratanakiri"
+  operators:
+    smart:
+      metadata:
+        name: "Smart"
+      prefixes:
+        - "10"
+        - "15"
+        - "16"
+        - "69"
+        - "70"
+        - "81"
+        - "86"
+        - "87"
+        - "93"
+        - "96"
+        - "98"
+      area_code_prefixes:
+        - "45"
+    beeline:
+      metadata:
+        name: "Beeline"
+      prefixes:
+        - "60"
+        - "66"
+        - "67"
+        - "68"
+        - "90"
+      area_code_prefixes:
+        - "46"
