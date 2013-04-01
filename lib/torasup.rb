@@ -1,9 +1,12 @@
 require "torasup/version"
 require "torasup/configuration"
+require "torasup/phone_number"
 require "torasup/operator"
+require "torasup/location"
 
 module Torasup
   require 'yaml'
+  require 'phony'
   require 'countries'
 
 #  # Configure through yaml file
@@ -19,6 +22,10 @@ module Torasup
 
     def country_id(country_code)
       @international_dialing_codes[country_code].downcase if @international_dialing_codes[country_code]
+    end
+
+    def area_code(country_id, code)
+      area_codes(country_id)[code]
     end
 
     def prefix_data(prefix)
@@ -63,12 +70,12 @@ module Torasup
       country_data(country_id)["international_dialing_code"]
     end
 
-    def operators(country_id)
-      country_data(country_id)["operators"] || {}
-    end
-
     def area_codes(country_id)
       country_data(country_id)["area_codes"] || {}
+    end
+
+    def operators(country_id)
+      country_data(country_id)["operators"] || {}
     end
 
     def operator_data(country_id, operator)
