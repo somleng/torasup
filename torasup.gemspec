@@ -22,4 +22,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "deep_merge"
 
   gem.add_development_dependency "rspec"
+  gem.add_development_dependency "rake"  
 end
