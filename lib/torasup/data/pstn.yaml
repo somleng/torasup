@@ -73,3 +73,9 @@ kh:
         - '76'
         - '85'
         - '99'
+    metfone:
+      metadata:
+        name: "Metfone"
+      prefixes:
+        - '97'
+        - '88'
