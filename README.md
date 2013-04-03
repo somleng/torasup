@@ -128,8 +128,8 @@ Now `Torasup::PhoneNumber.new(+1 415-234 567).country_id` will return `"ca"`
 
 ### Data
 
-When contributing data please ensure that you create or edit the appropriate [spec](https://github.com/dwilkie/torasup/tree/master/spec/torasup/data). This ensures the integrity of the data..
+When contributing data please ensure that you create or edit an entry in the [pstn spec](https://github.com/dwilkie/torasup/tree/master/spec/torasup/spec/support_pstn_spec.rb). This ensures the integrity of the data.
 
-Please also include a link to Wikipedia article which verifies your data. See the [Cambodian spec](https://github.com/dwilkie/torasup/tree/master/spec/torasup/data/kh.yaml) for an example that links to [Wikipedia](http://en.wikipedia.org/wiki/Telecommunications_in_Cambodia#Mobile_networks).
+Please also include a link to Wikipedia article which verifies your data. See the [current psdn spec](https://github.com/dwilkie/torasup/blob/master/spec/support/pstn_spec.yaml) for an example that links to [Wikipedia](http://en.wikipedia.org/wiki/Telecommunications_in_Cambodia#Mobile_networks).
 
 If you obtained operator prefixes from another source please clearly add these prefixes to the appropriate Wikipedia article and reference it if necessary. This helps ensure the accuracy of the gem.
