@@ -2,6 +2,8 @@
 
 Retuns metadata about a phone number such as operator info, area code and more.
 
+[![Build Status](https://travis-ci.org/dwilkie/torasup.png)](https://travis-ci.org/dwilkie/torasup)
+
 ## Installation
 
 Add this line to your application's Gemfile:
