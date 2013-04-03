@@ -81,3 +81,11 @@ kh:
       prefixes:
         - '97'
         - '88'
+    qb:
+      assertions:
+        name: Qb
+      prefixes:
+        - '13'
+        - '80'
+        - '83'
+        - '84'
