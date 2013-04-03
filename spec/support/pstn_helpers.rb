@@ -114,7 +114,7 @@ module PstnHelpers
   end
 
   def with_operator_area_codes(country_data, operator_data, &block)
-    operator_data["area_code_prefixes"].each do |area_code_prefix|
+    (operator_data["area_code_prefixes"] || {}).each do |area_code_prefix|
       country_data["area_codes"].each do |area_code, area|
         yield area_code_prefix, area_code, area
       end
