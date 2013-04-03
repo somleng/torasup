@@ -19,6 +19,7 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency "countries"
   gem.add_runtime_dependency "phony"
+  gem.add_runtime_dependency "deep_merge"
 
   gem.add_development_dependency "rspec"
 end

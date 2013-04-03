@@ -1,13 +1,32 @@
 class Configuration
   DEFAULT_COUNTRIES = ["US", "GB", "AU", "IT", "RU", "NO"]
-  attr_accessor :registered_operators, :default_countries
-
-  def register_operators(country_code, operators)
-    self.registered_operators ||= {}
-    self.registered_operators[country_code] = operators
-  end
+  attr_accessor :registered_operators, :default_countries, :custom_pstn_data_file
 
   def initialize
-    self.default_countries = DEFAULT_COUNTRIES
+    @default_countries = DEFAULT_COUNTRIES
+  end
+
+  def default_countries=(value)
+    @default_countries = value
+    Torasup.load_international_dialing_codes!
+  end
+
+  def custom_pstn_data_file=(value)
+    @custom_pstn_data_file = value
+    Torasup.load_pstn_data!
+  end
+
+  def register_operators(country_code, *operators)
+    registered_operators[country_code] = operators
+    Torasup.load_pstn_data!
+  end
+
+  def registered_operators=(value)
+    @registered_operators = value
+    Torasup.load_pstn_data!
+  end
+
+  def registered_operators
+    @registered_operators ||= {}
   end
 end

@@ -1,0 +1,17 @@
+# this file is a sample file which can be used to override the standard pstn data
+---
+kh:
+  area_codes:
+    "45": "New Province"
+  operators:
+    hello:
+      metadata:
+        name: Hello
+        my_custom_property: hello-foo
+      prefixes:
+      - '15'
+      - '16'
+      - '81'
+      - '87'
+      area_code_prefixes:
+      - '45'

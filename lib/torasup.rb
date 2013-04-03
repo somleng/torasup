@@ -8,16 +8,26 @@ module Torasup
   require 'yaml'
   require 'phony'
   require 'countries'
-
-#  # Configure through yaml file
-#  def self.configure_with(path_to_yaml_file)
-#    @config = YAML.load_file(path_to_yaml_file)
-#    configure(config)
-#  end
+  require 'deep_merge/rails_compat'
 
   class << self
     def configure(&block)
       yield(configuration)
+    end
+
+    def load_international_dialing_codes!
+      @international_dialing_codes = {}
+      ISO3166::Country.all.each do |name, country_id|
+        dialing_code = ISO3166::Country[country_id].country_code
+        @international_dialing_codes[dialing_code] = country_id unless @international_dialing_codes[dialing_code] && !configuration.default_countries.include?(country_id)
+      end
+    end
+
+    def load_pstn_data!
+      @pstn_data = load_yaml_file(File.join(File.dirname(__FILE__), 'torasup/data/pstn.yaml')).deeper_merge(
+        load_yaml_file(configuration.custom_pstn_data_file)
+      )
+      load_pstn_prefixes!
     end
 
     def country_id(country_code)
@@ -32,34 +42,36 @@ module Torasup
       @pstn_prefixes[prefix] || {}
     end
 
+    def registered_prefixes
+      @registered_pstn_prefixes.keys
+    end
+
     private
-
-    def configuration
-      @configuration ||= Configuration.new
-    end
-
-    def load_international_dialing_codes!
-      @international_dialing_codes = {}
-      ISO3166::Country.all.each do |name, country_id|
-        dialing_code = ISO3166::Country[country_id].country_code
-        @international_dialing_codes[dialing_code] = country_id unless @international_dialing_codes[dialing_code] && !configuration.default_countries.include?(country_id)
-      end
-    end
-
-    def load_pstn_data!
-      @pstn_data = YAML.load_file(File.join(File.dirname(__FILE__), 'torasup/data/pstn.yaml')) || {}
-    end
 
     def load_pstn_prefixes!
       @pstn_prefixes = {}
+      @registered_pstn_prefixes = {}
       @pstn_data.each do |country_id, country_properties|
         operators(country_id).each do |operator, operator_properties|
           operator_prefixes(country_id, operator).each do |operator_prefix, prefix_data|
             prefix_properties = operator_metadata(country_id, operator).merge(prefix_data)
             @pstn_prefixes[operator_prefix] = prefix_properties
+            @registered_pstn_prefixes[operator_prefix] = prefix_properties if operator_registered?(country_id, operator)
           end
         end
       end
+    end
+
+    def configuration
+      @configuration ||= Configuration.new
+    end
+
+    def load_yaml_file(file_to_load)
+      file_to_load ? YAML.load_file(file_to_load) : {}
+    end
+
+    def operator_registered?(country_id, operator)
+      (configuration.registered_operators[country_id] || []).include?(operator)
     end
 
     def country_data(country_id)
@@ -107,7 +119,7 @@ module Torasup
       operator_prefixes = operator_mobile_prefixes(country_id, operator)
       operator_area_code_prefixes(country_id, operator).each do |operator_area_code_prefix|
         area_codes(country_id).each do |area_code, area|
-          operator_prefixes[operator_full_prefix(country_id, area_code, operator_area_code_prefix)] = {"area" => area, "area_code" => area_code, "prefix" => operator_area_code_prefix}
+          operator_prefixes[operator_full_prefix(country_id, area_code, operator_area_code_prefix)] = {"prefix" => operator_area_code_prefix}
         end
       end
       operator_prefixes
@@ -116,5 +128,4 @@ module Torasup
 
   load_international_dialing_codes!
   load_pstn_data!
-  load_pstn_prefixes!
 end

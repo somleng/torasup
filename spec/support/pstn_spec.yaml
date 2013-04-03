@@ -1,5 +1,8 @@
+# this file is used to test the gem against the data in lib/torasup/data/pstn.yaml
+# add examples to this file in order to test the integrity of the data
 ---
 kh:
+  # http://en.wikipedia.org/wiki/Telephone_numbers_in_Cambodia
   prefix: '855'
   area_codes:
     '23': Phnom Penh
@@ -27,6 +30,7 @@ kh:
     '74': Stung Treng
     '75': Ratanakiri
   operators:
+    # http://en.wikipedia.org/wiki/Telecommunications_in_Cambodia#Mobile_networks
     smart:
       assertions:
         name: Smart

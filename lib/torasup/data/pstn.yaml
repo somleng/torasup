@@ -28,6 +28,7 @@ kh:
     "74": "Stung Treng"
     "75": "Ratanakiri"
   operators:
+    # http://en.wikipedia.org/wiki/Telecommunications_in_Cambodia#Mobile_networks
     smart:
       metadata:
         name: "Smart"
