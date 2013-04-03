@@ -57,3 +57,19 @@ kh:
         - "90"
       area_code_prefixes:
         - "46"
+    mobitel:
+      metadata:
+        name: "Mobitel"
+      prefixes:
+        - '12'
+        - '17'
+        - '77'
+        - '78'
+        - '89'
+        - '92'
+        - '95'
+        - '11'
+        - '61'
+        - '76'
+        - '85'
+        - '99'
