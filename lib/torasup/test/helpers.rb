@@ -4,14 +4,66 @@ module Torasup
       private
 
       def yaml_file(filename)
-        raise "Override me to return the path of the full path of the yaml spec"
+        raise "Override this method to return the full path of the yaml spec"
       end
 
-      def pstn_data(custom_file = nil)
+      def load_yaml_file(file_to_load)
+        file_to_load ? YAML.load_file(file_to_load) : {}
+      end
+
+      def pstn_spec(filename)
+        File.join(File.dirname(__FILE__), "../../../spec/support/#{filename}")
+      end
+
+      def pstn_data(custom_spec = nil)
         return @pstn_data if @pstn_data
-        custom_file = yaml_file("custom_pstn_spec.yaml") if custom_file == true
-        data = load_yaml_file(yaml_file("pstn_spec.yaml"))
-        @pstn_data = custom_file ? data.deeper_merge(load_yaml_file(custom_file)) : data
+        if custom_spec == true
+          custom_spec = pstn_spec("custom_pstn_spec.yaml")
+        elsif custom_spec
+          custom_spec = yaml_file(custom_spec)
+        end
+        data = load_yaml_file(pstn_spec("pstn_spec.yaml"))
+        @pstn_data = custom_spec ? data.deeper_merge(load_yaml_file(custom_spec)) : data
+      end
+
+      def with_operators(options = {}, &block)
+        operator_assertions = {}
+        with_pstn_data(options) do |country_id, country_data, country_prefix|
+          operator_assertions[country_prefix] = {}
+          default_assertions = {"country_code" => country_prefix}
+          with_operator_data(country_id, options) do |operator, operator_data|
+            default_assertions.merge!("id" => operator).merge!(operator_data["assertions"])
+            with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
+              operator_assertions[country_prefix][area_code] = {}
+              local_number = ("0" * (6 - area_code_prefix.length))
+              unresolved_number = area_code_prefix + local_number
+              operator_assertions[country_prefix][area_code][unresolved_number] = default_assertions.merge(
+                "area_code" => area_code, "prefix" => area_code_prefix, "local_number" => local_number
+              )
+            end
+            with_operator_prefixes(operator_data) do |prefix|
+              operator_assertions[country_prefix][prefix] = {}
+              local_number = ("0" * 6)
+              operator_assertions[country_prefix][prefix][local_number] = default_assertions.merge(
+                "prefix" => prefix, "area_code" => nil
+              )
+            end
+          end
+        end
+        operator_assertions.each do |country_prefix, country_assertions|
+          country_assertions.each do |area_code_or_prefix, area_code_or_prefix_assertions|
+            area_code_or_prefix_assertions.each do |unresolved_local_number, assertions|
+              yield [country_prefix, area_code_or_prefix, unresolved_local_number], assertions
+            end
+          end
+        end
+      end
+
+      def with_pstn_data(options = {}, &block)
+        pstn_data(options[:with_custom_pstn_data]).each do |country_id, country_data|
+          next if options[:only_registered] && !options[:only_registered].include?(country_id)
+          yield country_id, country_data, country_data["prefix"]
+        end
       end
 
       def with_operator_data(country_id, options = {}, &block)
@@ -21,8 +73,22 @@ module Torasup
         end
       end
 
+      def with_operator_area_codes(country_data, operator_data, &block)
+        (operator_data["area_code_prefixes"] || {}).each do |area_code_prefix|
+          country_data["area_codes"].each do |area_code, area|
+            yield area_code_prefix, area_code, area
+          end
+        end
+      end
+
+      def with_operator_prefixes(operator_data, &block)
+        operator_data["prefixes"].each do |prefix|
+          yield prefix
+        end
+      end
+
       def country_data(country_id, custom_file = nil)
-        pstn_data(custom_file)[country_id] || {}
+        pstn_data(custom_file)[country_id.to_s] || {}
       end
     end
   end

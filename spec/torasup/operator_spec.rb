@@ -31,12 +31,12 @@ module Torasup
 
     shared_examples_for "an operator" do
       it "should return all the operator metadata" do
-        with_operators(options) do |country_code, area_code_or_prefix, unresolved_local_number, assertions|
-          subject = Operator.new(country_code, area_code_or_prefix, unresolved_local_number)
+        with_operators(options) do |number_parts, assertions|
+          subject = Operator.new(*number_parts)
           assertions.each do |method, assertion|
             result = subject.send(method)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            result.should(eq(assertion), "expected Operator.new('#{country_code}', '#{area_code_or_prefix}', '#{unresolved_local_number}').#{method} to return '#{assertion}' but got #{result_error}")
+            result.should(eq(assertion), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end
