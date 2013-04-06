@@ -1,13 +1,18 @@
 module PstnHelpers
+  include Torasup::Test::Helpers
+
   private
 
   def load_yaml_file(file_to_load)
-    file_to_load ? YAML.load_file(File.join(File.dirname(__FILE__), "/#{file_to_load}")) : {}
+    file_to_load ? YAML.load_file(file_to_load) : {}
   end
 
-  def pstn_data(with_custom_pstn_data = false)
-    data = load_yaml_file("pstn_spec.yaml")
-    with_custom_pstn_data ? data.deeper_merge(load_yaml_file("custom_pstn_spec.yaml")) : data
+  def clear_pstn_data
+    @pstn_data = nil
+  end
+
+  def yaml_file(filename)
+    File.join(File.dirname(__FILE__), "../../spec/support/#{filename}")
   end
 
   def with_phone_numbers(options = {}, &block)
@@ -48,7 +53,8 @@ module PstnHelpers
     with_pstn_data(options) do |country_id, country_data, country_prefix|
       operator_assertions[country_prefix] = {}
       default_assertions = {"country_code" => country_prefix}
-      with_operator_data(country_data) do |operator, operator_data|
+      with_operator_data(country_id, options) do |operator, operator_data|
+
         default_assertions.merge!("id" => operator).merge!(operator_data["assertions"])
         with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
           operator_assertions[country_prefix][area_code] = {}
@@ -81,29 +87,26 @@ module PstnHelpers
     [country.first, country.last["operators"].first.first]
   end
 
-  def prefixes(country_id, operator)
+  def prefixes(country_id, *operators)
     prefix_data = []
     country_data = pstn_data[country_id]
     country_prefix = country_data["prefix"]
-    operator_data = country_data["operators"][operator]
-    with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code|
-      prefix_data << (country_prefix + area_code + area_code_prefix)
-    end
-    with_operator_prefixes(operator_data) do |prefix|
-      prefix_data << (country_prefix + prefix)
+    operators.each do |operator|
+      operator_data = country_data["operators"][operator]
+      with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code|
+        prefix_data << (country_prefix + area_code + area_code_prefix)
+      end
+      with_operator_prefixes(operator_data) do |prefix|
+        prefix_data << (country_prefix + prefix)
+      end
     end
     prefix_data
   end
 
   def with_pstn_data(options = {}, &block)
     pstn_data(options[:with_custom_pstn_data]).each do |country_id, country_data|
+      next if options[:only_registered] && !options[:only_registered].include?(country_id)
       yield country_id, country_data, country_data["prefix"]
-    end
-  end
-
-  def with_operator_data(country_data, &block)
-    country_data["operators"].each do |operator, operator_data|
-      yield operator, operator_data
     end
   end
 

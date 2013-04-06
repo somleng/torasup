@@ -3,13 +3,10 @@
 
 ---
 kh:
-  area_codes:
-    '45': New Province
   operators:
     hello:
       assertions:
-        name: Hello
-        my_custom_property: hello-foo
+        name: "Hello"
       prefixes:
       - '15'
       - '16'

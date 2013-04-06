@@ -1,3 +1,8 @@
+require 'yaml'
+require 'phony'
+require 'countries'
+require 'deep_merge/rails_compat'
+
 require "torasup/version"
 require "torasup/configuration"
 require "torasup/phone_number"
@@ -5,10 +10,10 @@ require "torasup/operator"
 require "torasup/location"
 
 module Torasup
-  require 'yaml'
-  require 'phony'
-  require 'countries'
-  require 'deep_merge/rails_compat'
+
+  module Test
+    autoload :Helpers, 'torasup/test/helpers'
+  end
 
   class << self
     def configure(&block)
