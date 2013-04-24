@@ -118,6 +118,48 @@ By default the following counties will take precedence: `["US", "GB", "AU", "IT"
 
 Now `Torasup::PhoneNumber.new(+1 415-234 567).country_id` will return `"ca"`
 
+## Testing
+
+Torasup exposes a few test helpers methods which you can use in your tests. See [the helper module](https://github.com/dwilkie/torasup/blob/master/lib/torasup/test/helpers.rb) for more info.
+
+Here's an example using rspec:
+
+    require 'spec_helper'
+
+    describe User do
+      include Torasup::Test::Helpers
+
+      ASSERTED_REGISTERED_OPERATORS = {"kh" => %w{smart beeline hello}}
+
+      # override this method to return the full path of the yaml spec
+      def yaml_file(filename)
+        File.join(File.dirname(__FILE__), "/#{filename}")
+      end
+
+      # provide a custom spec file for example see:
+      # see https://github.com/dwilkie/torasup/blob/master/spec/support/custom_pstn_spec.yaml
+      def pstn_data(custom_spec = nil)
+        super("custom_operators_spec.yaml")
+      end
+
+      def with_operators(&block)
+        super(:only_registered => ASSERTED_REGISTERED_OPERATORS, &block)
+      end
+
+      describe "#operator" do
+        it "should return the correct operator" do
+          with_operators do |number_parts, assertions|
+            new_user = build(:user, :phone_number => number_parts.join)
+            new_user.operator.should == assertions["name"]
+          end
+        end
+      end
+    end
+
+In this example `with_operators` is used to yield a to block with a sample number (yielded as `number_parts`) and a hash of assertions (yielded as `assertions`) made about that number. The assertions are defined in `custom_operators_spec.yaml` which is in the same directory as this spec file.
+
+Sample numbers and assertions are only yielded for the operators defined in `ASSERTED_REGISTERED_OPERATORS`
+
 ## Contributing
 
 1. Fork it
