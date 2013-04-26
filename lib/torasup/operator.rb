@@ -7,8 +7,15 @@ module Torasup
       parse_phone_number(area_code_or_prefix, unresolved_local_number)
     end
 
-    def method_missing(method)
-      Torasup.prefix_data(full_prefix)[method.to_s]
+    def method_missing(method, interpolations = {})
+      value = Torasup.prefix_data(full_prefix)[method.to_s]
+      if value
+        interpolated_result = value.dup
+        interpolations.each do |interpolation, interpolated_value|
+          interpolated_result.gsub!("%{#{interpolation}}", interpolated_value)
+        end
+        interpolated_result
+      end
     end
 
     def self.registered_prefixes

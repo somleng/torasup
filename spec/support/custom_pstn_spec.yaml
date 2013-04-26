@@ -1,5 +1,5 @@
 # this file is used to test the functionality of overriding the standard pstn data
-# with the data in spec/support/custom_pstn.data
+# with the data in spec/support/custom_pstn.yaml
 
 ---
 kh:
@@ -7,6 +7,8 @@ kh:
     hello:
       assertions:
         name: "Hello"
+        my_custom_property: "hello-foo"
+        my_custom_interpolated_property: "hello-%{interpolation}"
       prefixes:
       - '15'
       - '16'

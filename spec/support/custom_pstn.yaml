@@ -8,6 +8,7 @@ kh:
       metadata:
         name: Hello
         my_custom_property: hello-foo
+        my_custom_interpolated_property: "hello-%{interpolation}"
       prefixes:
       - '15'
       - '16'

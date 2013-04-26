@@ -32,19 +32,19 @@ module Torasup
           operator_assertions[country_prefix] = {}
           default_assertions = {"country_code" => country_prefix}
           with_operator_data(country_id, options) do |operator, operator_data|
-            default_assertions.merge!("id" => operator).merge!(operator_data["assertions"])
+            default_operator_assertions = operator_data["assertions"].merge("id" => operator).merge(default_assertions)
             with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
               operator_assertions[country_prefix][area_code] = {}
               local_number = ("0" * (6 - area_code_prefix.length))
               unresolved_number = area_code_prefix + local_number
-              operator_assertions[country_prefix][area_code][unresolved_number] = default_assertions.merge(
+              operator_assertions[country_prefix][area_code][unresolved_number] = default_operator_assertions.merge(
                 "area_code" => area_code, "prefix" => area_code_prefix, "local_number" => local_number
               )
             end
             with_operator_prefixes(operator_data) do |prefix|
               operator_assertions[country_prefix][prefix] = {}
               local_number = ("0" * 6)
-              operator_assertions[country_prefix][prefix][local_number] = default_assertions.merge(
+              operator_assertions[country_prefix][prefix][local_number] = default_operator_assertions.merge(
                 "prefix" => prefix, "area_code" => nil
               )
             end
@@ -89,6 +89,16 @@ module Torasup
 
       def country_data(country_id, custom_file = nil)
         pstn_data(custom_file)[country_id.to_s] || {}
+      end
+
+      def interpolated_assertion(assertion, interpolations = {})
+        if assertion
+          interpolated_result = assertion.dup
+          interpolations.each do |interpolation, value|
+            interpolated_result.gsub!("%{#{interpolation}}", value)
+          end
+          interpolated_result
+        end
       end
     end
   end

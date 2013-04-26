@@ -61,7 +61,7 @@ Or install it yourself as:
 
 ### Overriding Data
 
-Sometimes it maybe necessary to override the data that Torasup provides. For example you may want to provide custom attributes for different operators. In order to achieve this you can provide a custom [psdn](http://en.wikipedia.org/wiki/Public_switched_telephone_network) data file. See the format of the [pstn data files](https://github.com/dwilkie/torasup/tree/master/lib/torasup/data) for more info. e.g.
+Sometimes it maybe necessary to override the data that Torasup provides. For example you may want to provide custom attributes for different operators. In order to achieve this you can provide a custom [psdn](http://en.wikipedia.org/wiki/Public_switched_telephone_network) data file. Custom files also support interpolations using the `%{interpolation}` [I18n syntax](http://guides.rubyonrails.org/i18n.html#interpolation). See the format of sample custom [pstn data file](https://github.com/dwilkie/torasup/blob/master/spec/support/custom_pstn.yaml) for more info. e.g.
 
     # my_pstn_data.yaml
     ---
@@ -73,6 +73,7 @@ Sometimes it maybe necessary to override the data that Torasup provides. For exa
           metadata:
             name: Hello
             my_custom_property: hello-foo
+            my_custom_interpolated_property: "hello-%{interpolation}"
           prefixes:
           - '15'
           - '16'
@@ -96,6 +97,9 @@ Sometimes it maybe necessary to override the data that Torasup provides. For exa
 
     > op.my_custom_property
     => "hello-foo"
+
+    > op.my_custom_interpolated_property(:interpolation => "bar")
+    => "hello-bar"
 
 ### Registering Operators
 
