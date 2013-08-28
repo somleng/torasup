@@ -51,6 +51,10 @@ module Torasup
       @registered_pstn_prefixes.keys
     end
 
+    def prefixes
+      @pstn_prefixes.dup
+    end
+
     private
 
     def load_pstn_prefixes!
@@ -100,7 +104,7 @@ module Torasup
     end
 
     def operator_metadata(country_id, operator)
-      {"id" => operator}.merge(operator_data(country_id, operator)["metadata"] || {})
+      {"country_id" => country_id, "id" => operator}.merge(operator_data(country_id, operator)["metadata"] || {})
     end
 
     def operator_area_code_prefixes(country_id, operator)

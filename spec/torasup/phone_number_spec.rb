@@ -5,8 +5,8 @@ module Torasup
     include PstnHelpers
 
     subject { PhoneNumber.new("123456789") }
-    let(:location) { mock(Torasup::Location).as_null_object }
-    let(:operator) { mock(Torasup::Operator).as_null_object }
+    let(:location) { double(Torasup::Location).as_null_object }
+    let(:operator) { double(Torasup::Operator).as_null_object }
 
     describe "#location" do
       it "should return an instance of Torasup::Location" do

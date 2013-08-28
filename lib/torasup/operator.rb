@@ -22,6 +22,20 @@ module Torasup
       Torasup.registered_prefixes
     end
 
+    def self.all
+      operators = {}
+      Torasup.prefixes.each do |prefix, metadata|
+        prefix_country_id = metadata["country_id"]
+        country_operators = operators[prefix_country_id] ||= {}
+        prefix_operator_id = metadata["id"]
+        operator_metadata = country_operators[prefix_operator_id] ||= metadata
+        operator_metadata.delete("prefix")
+        prefixes = operator_metadata["prefixes"] ||= []
+        prefixes << prefix
+      end
+      operators
+    end
+
     private
 
     def parse_phone_number(area_code_or_prefix, unresolved_local_number)

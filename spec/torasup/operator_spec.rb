@@ -29,6 +29,20 @@ module Torasup
       end
     end
 
+    describe ".all" do
+      it "should return all the operators with their metadata" do
+        operators = Operator.all
+        with_operators do |number_parts, assertions|
+          operator = operators[assertions["country_id"]][assertions["id"]]
+          operator["country_id"].should == assertions["country_id"]
+          operator["id"].should == assertions["id"]
+          operator["prefixes"].should include(
+            assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
+          )
+        end
+      end
+    end
+
     shared_examples_for "an operator" do
       it "should return all the operator metadata" do
         with_operators(options) do |number_parts, assertions|

@@ -32,7 +32,7 @@ module Torasup
           operator_assertions[country_prefix] = {}
           default_assertions = {"country_code" => country_prefix}
           with_operator_data(country_id, options) do |operator, operator_data|
-            default_operator_assertions = operator_data["assertions"].merge("id" => operator).merge(default_assertions)
+            default_operator_assertions = operator_data["assertions"].merge("country_id" => country_id, "id" => operator).merge(default_assertions)
             with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
               operator_assertions[country_prefix][area_code] = {}
               local_number = ("0" * (6 - area_code_prefix.length))
