@@ -101,6 +101,11 @@ Sometimes it maybe necessary to override the data that Torasup provides. For exa
     > op.my_custom_interpolated_property(:interpolation => "bar")
     => "hello-bar"
 
+### Accessing Operator Metadata
+
+    > Torasup::Operator.all["kh"]["metfone"]["prefixes"]
+    => ["85597", "85588"]
+
 ### Registering Operators
 
 Sometimes you may only be interested in certain prefixes. For example let's say you want to match phone numbers from a certain operator from the database. You can register operators for this purpose. e.g.
