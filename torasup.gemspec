@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{"Retuns metadata about a phone number such as operator, area code and more"}
   gem.summary       = %q{"Retuns metadata about a phone number such as operator, area code and more"}
   gem.homepage      = "https://github.com/dwilkie/torasup/"
-  spec.license      = 'MIT'
+  gem.license       = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
