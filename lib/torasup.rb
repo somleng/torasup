@@ -55,6 +55,10 @@ module Torasup
       @pstn_prefixes.dup
     end
 
+    def registered_operators
+      configuration.registered_operators.dup
+    end
+
     private
 
     def load_pstn_prefixes!

@@ -114,6 +114,9 @@ Sometimes you may only be interested in certain prefixes. For example let's say 
     >   register_operators("kh", "metfone")
     > end
 
+    > Torasup::Operator.registered
+    => {"kh"=>["metfone"]}
+
     > Torasup::Operator.registered_prefixes
     =>  ["85597", "85588"]
 

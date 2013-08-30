@@ -22,6 +22,10 @@ module Torasup
       Torasup.registered_prefixes
     end
 
+    def self.registered
+      Torasup.registered_operators
+    end
+
     def self.all
       operators = {}
       Torasup.prefixes.each do |prefix, metadata|

@@ -4,6 +4,31 @@ module Torasup
   describe Operator do
     include PstnHelpers
 
+    let(:operator) { sample_operator }
+
+    describe ".registered" do
+      context "given no operators have been registered" do
+        before do
+          clear_registered_operators
+        end
+
+        it "should return an empty hash" do
+          Operator.registered.should == {}
+        end
+      end
+
+      context "given one operator has been registered" do
+        before do
+          configure_registered_operators(operator[0], operator[1])
+          configure_with_custom_data(false)
+        end
+
+        it "should return a hash of countries with registerd operators" do
+          Operator.registered.should == {operator[0] => [operator[1]]}
+        end
+      end
+    end
+
     describe ".registered_prefixes" do
       context "given no operators have been registered" do
         before do
@@ -16,14 +41,12 @@ module Torasup
       end
 
       context "given one operator has been registered" do
-        let(:operator) { sample_operator }
-
         before do
           configure_registered_operators(operator[0], operator[1])
           configure_with_custom_data(false)
         end
 
-        it "should the prefixes for that operator" do
+        it "should return the prefixes for that operator" do
           Operator.registered_prefixes.should =~ prefixes(operator[0], operator[1])
         end
       end
