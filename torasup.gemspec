@@ -11,6 +11,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{"Retuns metadata about a phone number such as operator, area code and more"}
   gem.summary       = %q{"Retuns metadata about a phone number such as operator, area code and more"}
   gem.homepage      = "https://github.com/dwilkie/torasup/"
+  spec.license      = 'MIT'
 
   gem.files         = `git ls-files`.split($/)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
@@ -22,5 +23,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency "deep_merge"
 
   gem.add_development_dependency "rspec"
-  gem.add_development_dependency "rake"  
+  gem.add_development_dependency "rake"
 end
