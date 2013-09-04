@@ -8,54 +8,65 @@ Retuns metadata about a phone number such as operator info, area code and more.
 
 Add this line to your application's Gemfile:
 
-    gem 'torasup'
+```ruby
+gem 'torasup'
+```
 
 And then execute:
 
-    $ bundle
+```shell
+$ bundle
+```
 
 Or install it yourself as:
 
-    $ gem install torasup
+```shell
+$ gem install torasup
+```
 
 ## Usage
 
 ### Examples
 
-    $ irb
+```shell
+$ irb
+```
 
-    > require 'torasup'
-    > pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
+```ruby
+require 'torasup'
 
-    > pn.number
-    => "85562451234"
+pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
 
-    > pn.country_code
-    => "855"
+pn.number
+=> "85562451234"
 
-    > pn.country_id
-    => "kh"
+pn.country_code
+=> "855"
 
-    > pn.area_code
-    => "62"
+pn.country_id
+=> "kh"
 
-    > pn.prefix
-    => "45"
+pn.area_code
+=> "62"
 
-    > pn.local_number
-    => "1234"
+pn.prefix
+=> "45"
 
-    > loc = pn.location
-    > loc.area
-    => "Kampong Thom"
+pn.local_number
+=> "1234"
 
-    > op = pn.operator
+loc = pn.location
+loc.area
+=> "Kampong Thom"
 
-    > op.id
-    => "smart"
+op = pn.operator
 
-    > op.name
-    => "Smart"
+op.id
+=> "smart"
+
+op.name
+=> "Smart"
+```
 
 ## Configuration
 
@@ -63,72 +74,83 @@ Or install it yourself as:
 
 Sometimes it maybe necessary to override the data that Torasup provides. For example you may want to provide custom attributes for different operators. In order to achieve this you can provide a custom [psdn](http://en.wikipedia.org/wiki/Public_switched_telephone_network) data file. Custom files also support interpolations using the `%{interpolation}` [I18n syntax](http://guides.rubyonrails.org/i18n.html#interpolation). See the format of sample custom [pstn data file](https://github.com/dwilkie/torasup/blob/master/spec/support/custom_pstn.yaml) for more info. e.g.
 
-    # my_pstn_data.yaml
-    ---
-    kh:
-      area_codes:
-        "45": "New Province"
-      operators:
-        hello:
-          metadata:
-            name: Hello
-            my_custom_property: hello-foo
-            my_custom_interpolated_property: "hello-%{interpolation}"
-          prefixes:
-          - '15'
-          - '16'
-          - '81'
-          - '87'
-          area_code_prefixes:
-          - '45'
+```yaml
+# my_pstn_data.yaml
+---
+kh:
+  area_codes:
+    "45": "New Province"
+  operators:
+    hello:
+      metadata:
+        name: Hello
+        my_custom_property: hello-foo
+        my_custom_interpolated_property: "hello-%{interpolation}"
+      prefixes:
+      - '15'
+      - '16'
+      - '81'
+      - '87'
+      area_code_prefixes:
+      - '45'
+```
 
-    > Torasup.configure do |config|
-    >   custom_pstn_data_file = "my_pstn_data.yaml"
-    > end
+```ruby
+Torasup.configure do |config|
+  config.custom_pstn_data_file = "my_pstn_data.yaml"
+end
 
-    > pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
-    > op = pn.operator
+pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
+op = pn.operator
 
-    > op.id
-    => "hello"
+op.id
+=> "hello"
 
-    > op.name
-    => "Hello"
+op.name
+=> "Hello"
 
-    > op.my_custom_property
-    => "hello-foo"
+op.my_custom_property
+=> "hello-foo"
 
-    > op.my_custom_interpolated_property(:interpolation => "bar")
-    => "hello-bar"
+op.my_custom_interpolated_property(:interpolation => "bar")
+=> "hello-bar"
+```
 
 ### Accessing Operator Metadata
 
-    > Torasup::Operator.all["kh"]["metfone"]["prefixes"]
-    => ["85597", "85588"]
+```ruby
+Torasup::Operator.all["kh"]["metfone"]["prefixes"]
+=> ["85597", "85588"]
+```
 
 ### Registering Operators
 
 Sometimes you may only be interested in certain prefixes. For example let's say you want to match phone numbers from a certain operator from the database. You can register operators for this purpose. e.g.
 
-    > Torasup.configure do |config|
-    >   register_operators("kh", "metfone")
-    > end
+```ruby
+Torasup.configure do |config|
+  config.register_operators("kh", "metfone")
+end
 
-    > Torasup::Operator.registered
-    => {"kh"=>["metfone"]}
-
-    > Torasup::Operator.registered_prefixes
-    =>  ["85597", "85588"]
+Torasup::Operator.registered
+=> {"kh"=>{"metfone"=>{"country_id"=>"kh", "id"=>"metfone", "name"=>"Metfone", "prefixes"=>["85597", "85588"]}}}
+```
 
 ### Default Operators
 
-By default the following counties will take precedence: `["US", "GB", "AU", "IT", "RU", "NO"]`. This means that `Torasup::PhoneNumber.new(+1 415-234 567).country_id` will return `"us"` and not `ca`. To override use the following configuration setting.
+By default the following counties will take precedence: `["US", "GB", "AU", "IT", "RU", "NO"]`. To override use the following configuration setting:
 
-    > Torasup.configure do |config|
-    >   config.default_countries = ["CA"]
-    > end
+```ruby
+Torasup::PhoneNumber.new("+1 415-234 567").country_id
+=> "us"
 
-Now `Torasup::PhoneNumber.new(+1 415-234 567).country_id` will return `"ca"`
+Torasup.configure do |config|
+  config.default_countries = ["CA"]
+end
+
+Torasup::PhoneNumber.new("+1 415-234 567").country_id
+=> "ca"
+```
 
 ## Testing
 
@@ -136,37 +158,39 @@ Torasup exposes a few test helpers methods which you can use in your tests. See 
 
 Here's an example using rspec:
 
-    require 'spec_helper'
+```ruby
+require 'spec_helper'
 
-    describe User do
-      include Torasup::Test::Helpers
+describe User do
+  include Torasup::Test::Helpers
 
-      ASSERTED_REGISTERED_OPERATORS = {"kh" => %w{smart beeline hello}}
+  ASSERTED_REGISTERED_OPERATORS = {"kh" => %w{smart beeline hello}}
 
-      # override this method to return the full path of the yaml spec
-      def yaml_file(filename)
-        File.join(File.dirname(__FILE__), "/#{filename}")
-      end
+  # override this method to return the full path of the yaml spec
+  def yaml_file(filename)
+    File.join(File.dirname(__FILE__), "/#{filename}")
+  end
 
-      # provide a custom spec file for example see:
-      # see https://github.com/dwilkie/torasup/blob/master/spec/support/custom_pstn_spec.yaml
-      def pstn_data(custom_spec = nil)
-        super("custom_operators_spec.yaml")
-      end
+  # provide a custom spec file for example see:
+  # see https://github.com/dwilkie/torasup/blob/master/spec/support/custom_pstn_spec.yaml
+  def pstn_data(custom_spec = nil)
+    super("custom_operators_spec.yaml")
+  end
 
-      def with_operators(&block)
-        super(:only_registered => ASSERTED_REGISTERED_OPERATORS, &block)
-      end
+  def with_operators(&block)
+    super(:only_registered => ASSERTED_REGISTERED_OPERATORS, &block)
+  end
 
-      describe "#operator" do
-        it "should return the correct operator" do
-          with_operators do |number_parts, assertions|
-            new_user = build(:user, :phone_number => number_parts.join)
-            new_user.operator.should == assertions["name"]
-          end
-        end
+  describe "#operator" do
+    it "should return the correct operator" do
+      with_operators do |number_parts, assertions|
+        new_user = build(:user, :phone_number => number_parts.join)
+        new_user.operator.should == assertions["name"]
       end
     end
+  end
+end
+```
 
 In this example `with_operators` is used to yield a to block with a sample number (yielded as `number_parts`) and a hash of assertions (yielded as `assertions`) made about that number. The assertions are defined in `custom_operators_spec.yaml` which is in the same directory as this spec file.
 
