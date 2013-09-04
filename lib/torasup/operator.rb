@@ -18,26 +18,12 @@ module Torasup
       end
     end
 
-    def self.registered_prefixes
-      Torasup.registered_prefixes
-    end
-
     def self.registered
-      Torasup.registered_operators
+      build_metadata(:registered_operator_prefixes)
     end
 
     def self.all
-      operators = {}
-      Torasup.prefixes.each do |prefix, metadata|
-        prefix_country_id = metadata["country_id"]
-        country_operators = operators[prefix_country_id] ||= {}
-        prefix_operator_id = metadata["id"]
-        operator_metadata = country_operators[prefix_operator_id] ||= metadata.dup
-        operator_metadata.delete("prefix")
-        prefixes = operator_metadata["prefixes"] ||= []
-        prefixes << prefix
-      end
-      operators
+      build_metadata(:prefixes)
     end
 
     private
@@ -63,5 +49,21 @@ module Torasup
       parts = [@area_code, @prefix] if parts.empty?
       @country_code + parts.join
     end
+
+    def self.build_metadata(operator_type)
+      operators = {}
+      Torasup.send(operator_type).each do |prefix, metadata|
+        prefix_country_id = metadata["country_id"]
+        country_operators = operators[prefix_country_id] ||= {}
+        prefix_operator_id = metadata["id"]
+        operator_metadata = country_operators[prefix_operator_id] ||= metadata.dup
+        operator_metadata.delete("prefix")
+        prefixes = operator_metadata["prefixes"] ||= []
+        prefixes << prefix
+      end
+      operators
+    end
+
+    private_class_method :build_metadata
   end
 end

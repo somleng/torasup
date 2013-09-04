@@ -47,16 +47,12 @@ module Torasup
       @pstn_prefixes[prefix] || {}
     end
 
-    def registered_prefixes
-      @registered_pstn_prefixes.keys
+    def registered_operator_prefixes
+      @registered_pstn_prefixes.dup
     end
 
     def prefixes
       @pstn_prefixes.dup
-    end
-
-    def registered_operators
-      configuration.registered_operators.dup
     end
 
     private

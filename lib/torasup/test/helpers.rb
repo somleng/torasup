@@ -1,7 +1,33 @@
 module Torasup
   module Test
     module Helpers
+
+      RSpec.configure do |config|
+        config.before do
+          clear_pstn
+          clear_registered_operators
+        end
+      end
+
       private
+
+      def clear_pstn
+        Torasup.configure do |config|
+          config.custom_pstn_data_file = nil
+        end
+      end
+
+      def clear_registered_operators
+        Torasup.configure do |config|
+          config.registered_operators = {}
+        end
+      end
+
+      def configure_registered_operators(country_id, *operators)
+        Torasup.configure do |config|
+          config.register_operators(country_id, *operators)
+        end
+      end
 
       def yaml_file(filename)
         raise "Override this method to return the full path of the yaml spec"
@@ -16,14 +42,13 @@ module Torasup
       end
 
       def pstn_data(custom_spec = nil)
-        return @pstn_data if @pstn_data
         if custom_spec == true
           custom_spec = pstn_spec("custom_pstn_spec.yaml")
         elsif custom_spec
           custom_spec = yaml_file(custom_spec)
         end
         data = load_yaml_file(pstn_spec("pstn_spec.yaml"))
-        @pstn_data = custom_spec ? data.deeper_merge(load_yaml_file(custom_spec)) : data
+        custom_spec ? data.deeper_merge(load_yaml_file(custom_spec)) : data
       end
 
       def with_operators(options = {}, &block)

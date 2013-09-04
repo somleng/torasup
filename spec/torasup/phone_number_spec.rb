@@ -4,6 +4,24 @@ module Torasup
   describe PhoneNumber do
     include PstnHelpers
 
+    def with_phone_numbers(options = {}, &block)
+      phone_number_assertions = {}
+      with_pstn_data(options) do |country_id, country_data, country_prefix|
+        area_code_or_prefix = (10 + rand(100 - 10)).to_s
+        local_number = [(100 + rand(1000 - 100)).to_s, (100 + rand(1000 - 100)).to_s]
+        sample_number = "+#{country_prefix} (0) #{area_code_or_prefix}-#{local_number[0]}-#{local_number[1]}"
+        normalized_number = country_prefix + area_code_or_prefix + local_number[0] + local_number[1]
+        phone_number_assertions[sample_number] = {
+          "number" => normalized_number, "country_id" => country_id, "country_code" => country_prefix,
+          "area_code_or_prefix" => area_code_or_prefix, "local_number" => local_number.join
+        }
+      end
+
+      phone_number_assertions.each do |sample_number, assertions|
+        yield sample_number, assertions
+      end
+    end
+
     subject { PhoneNumber.new("123456789") }
     let(:location) { double(Torasup::Location).as_null_object }
     let(:operator) { double(Torasup::Operator).as_null_object }
@@ -54,7 +72,6 @@ module Torasup
     end
 
     shared_examples_for "a phone number" do
-
       before do
         Torasup::Location.stub(:new).and_return(location)
         Torasup::Operator.stub(:new).and_return(operator)
@@ -80,10 +97,6 @@ module Torasup
     end
 
     context "using the standard data" do
-      before do
-        configure_with_custom_data(false)
-      end
-
       it_should_behave_like "a phone number" do
         let(:options) { {} }
       end

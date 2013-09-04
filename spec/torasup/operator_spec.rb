@@ -4,7 +4,32 @@ module Torasup
   describe Operator do
     include PstnHelpers
 
-    let(:operator) { sample_operator }
+    let(:sample_operator) do
+      country = pstn_data.first
+      [country.first, country.last["operators"].first.first]
+    end
+
+    shared_examples_for "operator metadata" do
+      it "should return the operators with their metadata" do
+        operators = Operator.send(method)
+        operators = Operator.send(method) # run it twice to highlight the duplication problem
+        with_operators do |number_parts, assertions|
+          operator = operators[assertions["country_id"]][assertions["id"]]
+          operator["country_id"].should == assertions["country_id"]
+          operator["id"].should == assertions["id"]
+          operator["prefixes"].should == operator["prefixes"].uniq
+          operator["prefixes"].should include(
+            assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
+          )
+        end
+      end
+    end
+
+    describe ".all" do
+      it_should_behave_like "operator metadata" do
+        let(:method) { :all }
+      end
+    end
 
     describe ".registered" do
       context "given no operators have been registered" do
@@ -19,51 +44,15 @@ module Torasup
 
       context "given one operator has been registered" do
         before do
-          configure_registered_operators(operator[0], operator[1])
-          configure_with_custom_data(false)
+          configure_registered_operators(sample_operator[0], sample_operator[1])
         end
 
-        it "should return a hash of countries with registerd operators" do
-          Operator.registered.should == {operator[0] => [operator[1]]}
-        end
-      end
-    end
+        it_should_behave_like "operator metadata" do
+          let(:method) { :registered }
 
-    describe ".registered_prefixes" do
-      context "given no operators have been registered" do
-        before do
-          clear_registered_operators
-        end
-
-        it "should return an empty array" do
-          Operator.registered_prefixes.should == []
-        end
-      end
-
-      context "given one operator has been registered" do
-        before do
-          configure_registered_operators(operator[0], operator[1])
-          configure_with_custom_data(false)
-        end
-
-        it "should return the prefixes for that operator" do
-          Operator.registered_prefixes.should =~ prefixes(operator[0], operator[1])
-        end
-      end
-    end
-
-    describe ".all" do
-      it "should return all the operators with their metadata" do
-        operators = Operator.all
-        operators = Operator.all # run it twice to highlight the duplication problem
-        with_operators do |number_parts, assertions|
-          operator = operators[assertions["country_id"]][assertions["id"]]
-          operator["country_id"].should == assertions["country_id"]
-          operator["id"].should == assertions["id"]
-          operator["prefixes"].should == operator["prefixes"].uniq
-          operator["prefixes"].should include(
-            assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
-          )
+          def with_operators(&block)
+            super(:only_registered => {sample_operator[0] => [sample_operator[1]]}, &block)
+          end
         end
       end
     end
@@ -84,10 +73,6 @@ module Torasup
     end
 
     context "using the standard data" do
-      before do
-        configure_with_custom_data(false)
-      end
-
       it_should_behave_like "an operator" do
         let(:options) { {} }
       end
