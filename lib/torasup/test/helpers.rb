@@ -1,34 +1,6 @@
 module Torasup
   module Test
     module Helpers
-
-      RSpec.configure do |config|
-        config.before do
-          clear_pstn
-          clear_registered_operators
-        end
-      end
-
-      private
-
-      def clear_pstn
-        Torasup.configure do |config|
-          config.custom_pstn_data_file = nil
-        end
-      end
-
-      def clear_registered_operators
-        Torasup.configure do |config|
-          config.registered_operators = {}
-        end
-      end
-
-      def configure_registered_operators(country_id, *operators)
-        Torasup.configure do |config|
-          config.register_operators(country_id, *operators)
-        end
-      end
-
       def yaml_file(filename)
         raise "Override this method to return the full path of the yaml spec"
       end
