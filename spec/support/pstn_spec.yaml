@@ -89,3 +89,15 @@ kh:
         - '80'
         - '83'
         - '84'
+    excell:
+      assertions:
+        name: Excell
+      prefixes:
+        - '18'
+    cootel:
+      assertions:
+        name: CooTel
+      prefixes:
+        - '38'
+      area_code_prefixes:
+        - '47'

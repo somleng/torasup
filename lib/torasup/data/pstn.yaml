@@ -87,3 +87,15 @@ kh:
         - '80'
         - '83'
         - '84'
+    excell:
+      metadata:
+        name: "Excell"
+      prefixes:
+        - '18'
+    cootel:
+      metadata:
+        name: "CooTel"
+      prefixes:
+        - '38'
+      area_code_prefixes:
+        - '47'
