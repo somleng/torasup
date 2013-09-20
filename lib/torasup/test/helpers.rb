@@ -34,26 +34,31 @@ module Torasup
           with_operator_data(country_id, options) do |operator, operator_data|
             default_operator_assertions = operator_data["assertions"].merge("country_id" => country_id, "id" => operator).merge(default_assertions)
             with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
-              operator_assertions[country_prefix][area_code] = {}
+              area_code_assertions = operator_assertions[country_prefix][area_code] ||= {}
+              area_code_assertions[area_code_prefix] = {}
               local_number = ("0" * (6 - area_code_prefix.length))
               unresolved_number = area_code_prefix + local_number
-              operator_assertions[country_prefix][area_code][unresolved_number] = default_operator_assertions.merge(
+              area_code_assertions[area_code_prefix][local_number] = default_operator_assertions.merge(
                 "area_code" => area_code, "prefix" => area_code_prefix, "local_number" => local_number
               )
             end
             with_operator_prefixes(operator_data) do |prefix|
-              operator_assertions[country_prefix][prefix] = {}
+              prefix_assertions =  operator_assertions[country_prefix][prefix] = {}
+              no_area_code_assertions = prefix_assertions[nil] = {}
               local_number = ("0" * 6)
-              operator_assertions[country_prefix][prefix][local_number] = default_operator_assertions.merge(
+              no_area_code_assertions[local_number] = default_operator_assertions.merge(
                 "prefix" => prefix, "area_code" => nil
               )
             end
           end
         end
         operator_assertions.each do |country_prefix, country_assertions|
-          country_assertions.each do |area_code_or_prefix, area_code_or_prefix_assertions|
-            area_code_or_prefix_assertions.each do |unresolved_local_number, assertions|
-              yield [country_prefix, area_code_or_prefix, unresolved_local_number], assertions
+          country_assertions.each do |area_code_or_prefix, area_code_assertions|
+            area_code_assertions.each do |area_code_prefix, local_numbers|
+              local_numbers.each do |local_number, assertions|
+                unresolved_local_number = area_code_prefix.to_s + local_number
+                yield [country_prefix, area_code_or_prefix, unresolved_local_number], assertions
+              end
             end
           end
         end
