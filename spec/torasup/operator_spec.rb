@@ -63,10 +63,10 @@ module Torasup
           subject = Operator.new(*number_parts)
           assertions.each do |method, assertion|
             args = []
-            args << {:interpolation => "interpolation"} unless subject.respond_to?(method)
+            args << {:interpolation => nil} unless subject.respond_to?(method)
             result = subject.send(method, *args)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            result.should(eq(interpolated_assertion(assertion, :interpolation => "interpolation")), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
+            result.should(eq(interpolated_assertion(assertion, :interpolation => nil)), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end

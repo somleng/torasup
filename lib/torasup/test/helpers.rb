@@ -1,6 +1,9 @@
 module Torasup
   module Test
     module Helpers
+
+      private
+
       def yaml_file(filename)
         raise "Override this method to return the full path of the yaml spec"
       end
@@ -92,7 +95,7 @@ module Torasup
         if assertion
           interpolated_result = assertion.dup
           interpolations.each do |interpolation, value|
-            interpolated_result.gsub!("%{#{interpolation}}", value)
+            interpolated_result.gsub!("%{#{interpolation}}", value.to_s)
           end
           interpolated_result
         end

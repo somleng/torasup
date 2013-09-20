@@ -12,7 +12,7 @@ module Torasup
       if value
         interpolated_result = value.dup
         interpolations.each do |interpolation, interpolated_value|
-          interpolated_result.gsub!("%{#{interpolation}}", interpolated_value)
+          interpolated_result.gsub!("%{#{interpolation}}", interpolated_value.to_s)
         end
         interpolated_result
       end
