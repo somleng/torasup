@@ -50,6 +50,7 @@ kh:
       metadata:
         name: "Beeline"
       prefixes:
+        - "31"
         - "60"
         - "66"
         - "67"
