@@ -86,6 +86,7 @@ kh:
         name: Hello
         my_custom_property: hello-foo
         my_custom_interpolated_property: "hello-%{interpolation}"
+        my_custom_boolean_property: true
       prefixes:
       - '15'
       - '16'
@@ -114,6 +115,9 @@ op.my_custom_property
 
 op.my_custom_interpolated_property(:interpolation => "bar")
 => "hello-bar"
+
+op.my_custom_boolean_property
+=> true
 ```
 
 ### Accessing Operator Metadata

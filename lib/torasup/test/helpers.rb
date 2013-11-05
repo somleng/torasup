@@ -97,13 +97,12 @@ module Torasup
       end
 
       def interpolated_assertion(assertion, interpolations = {})
-        if assertion
-          interpolated_result = assertion.dup
-          interpolations.each do |interpolation, value|
-            interpolated_result.gsub!("%{#{interpolation}}", value.to_s)
-          end
-          interpolated_result
+        return assertion unless assertion.is_a?(String)
+        interpolated_result = assertion.dup
+        interpolations.each do |interpolation, value|
+          interpolated_result.gsub!("%{#{interpolation}}", value.to_s)
         end
+        interpolated_result
       end
     end
   end

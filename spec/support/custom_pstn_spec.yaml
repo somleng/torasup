@@ -9,6 +9,7 @@ kh:
         name: "Hello"
         my_custom_property: "hello-foo"
         my_custom_interpolated_property: "hello-%{interpolation}"
+        my_custom_boolean_property: true
       prefixes:
       - '15'
       - '16'

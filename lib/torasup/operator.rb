@@ -9,13 +9,12 @@ module Torasup
 
     def method_missing(method, interpolations = {})
       value = Torasup.prefix_data(full_prefix)[method.to_s]
-      if value
-        interpolated_result = value.dup
-        interpolations.each do |interpolation, interpolated_value|
-          interpolated_result.gsub!("%{#{interpolation}}", interpolated_value.to_s)
-        end
-        interpolated_result
+      return value unless value.is_a?(String)
+      interpolated_result = value.dup
+      interpolations.each do |interpolation, interpolated_value|
+        interpolated_result.gsub!("%{#{interpolation}}", interpolated_value.to_s)
       end
+      interpolated_result
     end
 
     def self.registered
