@@ -4,6 +4,7 @@
 kh:
   # http://en.wikipedia.org/wiki/Telephone_numbers_in_Cambodia
   prefix: '855'
+  local_number: "234567"
   area_codes:
     '23': Phnom Penh
     '24': Kandal
@@ -44,7 +45,7 @@ kh:
         - '86'
         - '87'
         - '93'
-        - '96'
+        - '96': "2345678"
         - '98'
       area_code_prefixes:
         - '45'
@@ -52,7 +53,7 @@ kh:
       assertions:
         name: Beeline
       prefixes:
-        - '31'
+        - '31': "2345678"
         - '60'
         - '66'
         - '67'
@@ -73,15 +74,15 @@ kh:
         - '95'
         - '11'
         - '61'
-        - '76'
+        - '76': "2345678"
         - '85'
         - '99'
     metfone:
       assertions:
         name: Metfone
       prefixes:
-        - '97'
-        - '88'
+        - '97': "2345678"
+        - '88': "2345678"
     qb:
       assertions:
         name: Qb
@@ -99,6 +100,6 @@ kh:
       assertions:
         name: CooTel
       prefixes:
-        - '38'
+        - '38': "2345678"
       area_code_prefixes:
         - '47'

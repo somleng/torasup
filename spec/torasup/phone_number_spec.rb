@@ -6,14 +6,12 @@ module Torasup
 
     def with_phone_numbers(options = {}, &block)
       phone_number_assertions = {}
-      with_pstn_data(options) do |country_id, country_data, country_prefix|
-        area_code_or_prefix = (10 + rand(100 - 10)).to_s
-        local_number = [(100 + rand(1000 - 100)).to_s, (100 + rand(1000 - 100)).to_s]
-        sample_number = "+#{country_prefix} (0) #{area_code_or_prefix}-#{local_number[0]}-#{local_number[1]}"
-        normalized_number = country_prefix + area_code_or_prefix + local_number[0] + local_number[1]
+      with_operators(options) do |number_parts, assertions|
+        number = number_parts.join
+        sample_number = "+#{number}"
         phone_number_assertions[sample_number] = {
-          "number" => normalized_number, "country_id" => country_id, "country_code" => country_prefix,
-          "area_code_or_prefix" => area_code_or_prefix, "local_number" => local_number.join
+          "number" => number, "country_id" => assertions["country_id"], "country_code" => assertions["country_code"],
+          "area_code_or_prefix" => assertions["area_code"] || assertions["prefix"], "local_number" => number_parts.last
         }
       end
 
@@ -22,7 +20,7 @@ module Torasup
       end
     end
 
-    subject { PhoneNumber.new("123456789") }
+    subject { PhoneNumber.new("85512234567") }
     let(:location) { double(Torasup::Location).as_null_object }
     let(:operator) { double(Torasup::Operator).as_null_object }
 
