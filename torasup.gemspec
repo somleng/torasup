@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
 
   gem.add_runtime_dependency "countries"
-  gem.add_runtime_dependency "phony"
+  gem.add_runtime_dependency "phony", '>= 2.10.2'
   gem.add_runtime_dependency "deep_merge"
 
   gem.add_development_dependency "rspec"
