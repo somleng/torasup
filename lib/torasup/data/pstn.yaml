@@ -80,6 +80,7 @@ kh:
       prefixes:
         - '97'
         - '88'
+        - '71'
     qb:
       metadata:
         name: "Qb"
