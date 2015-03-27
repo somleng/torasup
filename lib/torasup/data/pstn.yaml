@@ -46,18 +46,6 @@ kh:
         - "98"
       area_code_prefixes:
         - "45"
-    beeline:
-      metadata:
-        name: "Beeline"
-      prefixes:
-        - "31"
-        - "60"
-        - "66"
-        - "67"
-        - "68"
-        - "90"
-      area_code_prefixes:
-        - "46"
     mobitel:
       metadata:
         name: "Mobitel"
@@ -78,9 +66,17 @@ kh:
       metadata:
         name: "Metfone"
       prefixes:
-        - '97'
-        - '88'
+        - '31'
+        - '60'
+        - '66'
+        - '67'
+        - '68'
         - '71'
+        - '88'
+        - '90'
+        - '97'
+      area_code_prefixes:
+        - '46'
     qb:
       metadata:
         name: "Qb"

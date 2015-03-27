@@ -49,18 +49,6 @@ kh:
         - '98'
       area_code_prefixes:
         - '45'
-    beeline:
-      assertions:
-        name: Beeline
-      prefixes:
-        - '31': "2345678"
-        - '60'
-        - '66'
-        - '67'
-        - '68'
-        - '90'
-      area_code_prefixes:
-        - '46'
     mobitel:
       assertions:
         name: Mobitel
@@ -81,9 +69,17 @@ kh:
       assertions:
         name: Metfone
       prefixes:
-        - '97': "2345678"
-        - '88': "2345678"
+        - '31': "2345678"
+        - '60'
+        - '66'
+        - '67'
+        - '68'
         - '71': "2345678"
+        - '88': "2345678"
+        - '90'
+        - '97': "2345678"
+      area_code_prefixes:
+        - '46'
     qb:
       assertions:
         name: Qb
