@@ -15,10 +15,10 @@ module Torasup
         operators = Operator.send(method) # run it twice to highlight the duplication problem
         with_operators do |number_parts, assertions|
           operator = operators[assertions["country_id"]][assertions["id"]]
-          operator["country_id"].should == assertions["country_id"]
-          operator["id"].should == assertions["id"]
-          operator["prefixes"].should == operator["prefixes"].uniq
-          operator["prefixes"].should include(
+          expect(operator["country_id"]).to eq(assertions["country_id"])
+          expect(operator["id"]).to eq(assertions["id"])
+          expect(operator["prefixes"]).to eq(operator["prefixes"].uniq)
+          expect(operator["prefixes"]).to include(
             assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
           )
         end
@@ -38,7 +38,7 @@ module Torasup
         end
 
         it "should return an empty hash" do
-          Operator.registered.should == {}
+          expect(Operator.registered).to eq({})
         end
       end
 
@@ -66,7 +66,7 @@ module Torasup
             args << {:interpolation => nil} unless subject.respond_to?(method)
             result = subject.send(method, *args)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            result.should(eq(interpolated_assertion(assertion, :interpolation => nil)), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
+            expect(result).to(eq(interpolated_assertion(assertion, :interpolation => nil)), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end

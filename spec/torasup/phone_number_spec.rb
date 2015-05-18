@@ -26,53 +26,53 @@ module Torasup
 
     describe "#location" do
       it "should return an instance of Torasup::Location" do
-        subject.location.should be_a(Torasup::Location)
+        expect(subject.location).to be_a(Torasup::Location)
       end
     end
 
     describe "#operator" do
       it "should return an instance of Torasup::Operator" do
-        subject.operator.should be_a(Torasup::Operator)
+        expect(subject.operator).to be_a(Torasup::Operator)
       end
     end
 
     describe "#area_code" do
       before do
-        location.stub(:area_code).and_return("123")
-        Torasup::Location.stub(:new).and_return(location)
+        allow(location).to receive(:area_code).and_return("123")
+        allow(Torasup::Location).to receive(:new).and_return(location)
       end
 
       it "should delegate to location" do
-        subject.area_code.should == "123"
+        expect(subject.area_code).to eq("123")
       end
     end
 
     describe "#prefix" do
       before do
-        operator.stub(:prefix).and_return("12")
-        Torasup::Operator.stub(:new).and_return(operator)
+        allow(operator).to receive(:prefix).and_return("12")
+        allow(Torasup::Operator).to receive(:new).and_return(operator)
       end
 
       it "should delegate to operator" do
-        subject.prefix.should == "12"
+        expect(subject.prefix).to eq("12")
       end
     end
 
     describe "#local_number" do
       before do
-        operator.stub(:local_number).and_return("234567")
-        Torasup::Operator.stub(:new).and_return(operator)
+        allow(operator).to receive(:local_number).and_return("234567")
+        allow(Torasup::Operator).to receive(:new).and_return(operator)
       end
 
       it "should delegate to operator" do
-        subject.local_number.should == "234567"
+        expect(subject.local_number).to eq("234567")
       end
     end
 
     shared_examples_for "a phone number" do
       before do
-        Torasup::Location.stub(:new).and_return(location)
-        Torasup::Operator.stub(:new).and_return(operator)
+        allow(Torasup::Location).to receive(:new).and_return(location)
+        allow(Torasup::Operator).to receive(:new).and_return(operator)
       end
 
       it "should return all the phone number attributes" do
@@ -80,15 +80,15 @@ module Torasup
           area_code_or_prefix = assertions.delete("area_code_or_prefix")
           local_number = assertions.delete("local_number")
 
-          Torasup::Location.should_receive(:new).with(assertions["country_id"], area_code_or_prefix)
-          Torasup::Operator.should_receive(:new).with(assertions["country_code"], area_code_or_prefix, local_number)
+          expect(Torasup::Location).to receive(:new).with(assertions["country_id"], area_code_or_prefix)
+          expect(Torasup::Operator).to receive(:new).with(assertions["country_code"], area_code_or_prefix, local_number)
 
           subject = PhoneNumber.new(sample_number)
 
           assertions.each do |method, assertion|
             result = subject.send(method)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            result.should(eq(assertion), "expected PhoneNumber.new('#{sample_number}').#{method} to return '#{assertion}' but got #{result_error}")
+            expect(result).to(eq(assertion), "expected PhoneNumber.new('#{sample_number}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end

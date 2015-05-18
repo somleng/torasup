@@ -27,7 +27,7 @@ module Torasup
           assertions.each do |method, assertion|
             result = subject.send(method)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            result.should(eq(assertion), "expected Location.new('#{country_id}', '#{area_code}').#{method} to return '#{assertion}' but got #{result_error}")
+            expect(result).to(eq(assertion), "expected Location.new('#{country_id}', '#{area_code}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end
