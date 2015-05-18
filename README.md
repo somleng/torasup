@@ -2,7 +2,7 @@
 
 Retuns metadata about a phone number such as operator info, area code and more.
 
-[![Build Status](https://travis-ci.org/dwilkie/torasup.png)](https://travis-ci.org/dwilkie/torasup) [![Dependency Status](https://gemnasium.com/dwilkie/torasup.png)](https://gemnasium.com/dwilkie/torasup) [![Coverage Status](https://coveralls.io/repos/dwilkie/torasup/badge.png)](https://coveralls.io/r/dwilkie/torasup) [![Code Climate](https://codeclimate.com/github/dwilkie/torasup.png)](https://codeclimate.com/github/dwilkie/torasup)
+[![Build Status](https://travis-ci.org/dwilkie/torasup.png)](https://travis-ci.org/dwilkie/torasup) [![Dependency Status](https://gemnasium.com/dwilkie/torasup.png)](https://gemnasium.com/dwilkie/torasup) [![Code Climate](https://codeclimate.com/github/dwilkie/torasup.png)](https://codeclimate.com/github/dwilkie/torasup)
 
 ## Installation
 
