@@ -40,7 +40,10 @@ module Torasup
               custom_local_number = local_number.dup[0..(6 - area_code_prefix.length - 1)]
               unresolved_number = area_code_prefix + custom_local_number
               area_code_assertions[area_code_prefix][custom_local_number] = default_operator_assertions.merge(
-                "area_code" => area_code, "prefix" => area_code_prefix, "local_number" => custom_local_number
+                "area_code" => area_code,
+                "prefix" => area_code_prefix,
+                "local_number" => custom_local_number,
+                "type" => "landline"
               )
             end
             with_operator_prefixes(operator_data) do |prefix|
@@ -51,7 +54,7 @@ module Torasup
               prefix_assertions =  operator_assertions[country_prefix][prefix] = {}
               no_area_code_assertions = prefix_assertions[nil] = {}
               no_area_code_assertions[custom_local_number || local_number] = default_operator_assertions.merge(
-                "prefix" => prefix, "area_code" => nil
+                "prefix" => prefix, "area_code" => nil, "type" => "mobile"
               )
             end
           end

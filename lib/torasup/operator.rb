@@ -57,8 +57,10 @@ module Torasup
         prefix_operator_id = metadata["id"]
         operator_metadata = country_operators[prefix_operator_id] ||= metadata.dup
         operator_metadata.delete("prefix")
-        prefixes = operator_metadata["prefixes"] ||= []
-        prefixes << prefix
+        operator_metadata.delete("type")
+        type = metadata["type"]
+        typed_prefixes = operator_metadata["#{type}_prefixes"] ||= []
+        typed_prefixes << prefix
       end
       operators
     end

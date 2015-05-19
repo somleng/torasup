@@ -115,7 +115,9 @@ module Torasup
       full_prefixes = {}
       mobile_prefixes = operator_data(country_id, operator)["prefixes"] || {}
       mobile_prefixes.each do |mobile_prefix|
-        full_prefixes[operator_full_prefix(country_id, mobile_prefix)] = {"prefix" => mobile_prefix}
+        full_prefixes[operator_full_prefix(country_id, mobile_prefix)] = {
+          "type" => "mobile", "prefix" => mobile_prefix
+        }
       end
       full_prefixes
     end
@@ -128,7 +130,9 @@ module Torasup
       operator_prefixes = operator_mobile_prefixes(country_id, operator)
       operator_area_code_prefixes(country_id, operator).each do |operator_area_code_prefix|
         area_codes(country_id).each do |area_code, area|
-          operator_prefixes[operator_full_prefix(country_id, area_code, operator_area_code_prefix)] = {"prefix" => operator_area_code_prefix}
+          operator_prefixes[operator_full_prefix(country_id, area_code, operator_area_code_prefix)] = {
+            "type" => "landline", "prefix" => operator_area_code_prefix
+          }
         end
       end
       operator_prefixes

@@ -17,10 +17,9 @@ module Torasup
           operator = operators[assertions["country_id"]][assertions["id"]]
           expect(operator["country_id"]).to eq(assertions["country_id"])
           expect(operator["id"]).to eq(assertions["id"])
-          expect(operator["prefixes"]).to eq(operator["prefixes"].uniq)
-          expect(operator["prefixes"]).to include(
-            assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
-          )
+          asserted_prefix = assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
+          asserted_type = assertions["type"]
+          expect(operator["#{asserted_type}_prefixes"]).to include(asserted_prefix)
         end
       end
     end
