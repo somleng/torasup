@@ -33,11 +33,18 @@ module Torasup
           local_number = country_data["local_number"]
           default_assertions = {"country_code" => country_prefix}
           with_operator_data(country_id, options) do |operator, operator_data|
-            default_operator_assertions = operator_data["assertions"].merge("country_id" => country_id, "id" => operator).merge(default_assertions)
+            default_operator_assertions = operator_data["assertions"].merge(
+              "country_id" => country_id, "id" => operator
+            ).merge(default_assertions)
             with_operator_area_codes(country_data, operator_data) do |area_code_prefix, area_code, area|
+              if area_code_prefix.is_a?(Hash)
+                custom_local_number = area_code_prefix.values.first
+                area_code_prefix = area_code_prefix.keys.first
+              end
+
               area_code_assertions = operator_assertions[country_prefix][area_code] ||= {}
               area_code_assertions[area_code_prefix] = {}
-              custom_local_number = local_number.dup[0..(6 - area_code_prefix.length - 1)]
+              custom_local_number ||= local_number.dup[0..4]
               unresolved_number = area_code_prefix + custom_local_number
               area_code_assertions[area_code_prefix][custom_local_number] = default_operator_assertions.merge(
                 "area_code" => area_code,
@@ -53,8 +60,14 @@ module Torasup
               end
               prefix_assertions =  operator_assertions[country_prefix][prefix] = {}
               no_area_code_assertions = prefix_assertions[nil] = {}
-              no_area_code_assertions[custom_local_number || local_number] = default_operator_assertions.merge(
-                "prefix" => prefix, "area_code" => nil, "type" => "mobile"
+
+              custom_local_number ||= local_number
+
+              no_area_code_assertions[custom_local_number] = default_operator_assertions.merge(
+                "area_code" => nil,
+                "prefix" => prefix,
+                "local_number" => custom_local_number,
+                "type" => "mobile"
               )
             end
           end
@@ -94,7 +107,7 @@ module Torasup
       end
 
       def with_operator_prefixes(operator_data, &block)
-        operator_data["prefixes"].each do |prefix|
+        (operator_data["prefixes"] || {}).each do |prefix|
           yield prefix
         end
       end

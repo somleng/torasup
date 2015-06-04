@@ -2,8 +2,6 @@ require 'spec_helper'
 
 module Torasup
   describe Operator do
-    include PstnHelpers
-
     let(:sample_operator) do
       country = pstn_data.first
       [country.first, country.last["operators"].first.first]
@@ -19,7 +17,12 @@ module Torasup
           expect(operator["id"]).to eq(assertions["id"])
           asserted_prefix = assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
           asserted_type = assertions["type"]
-          expect(operator["#{asserted_type}_prefixes"]).to include(asserted_prefix)
+          asserted_prefixes = operator["#{asserted_type}_prefixes"]
+          expect(asserted_prefixes).to include(asserted_prefix)
+          asserted_prefix_metadata = asserted_prefixes[asserted_prefix]
+          expect(asserted_prefix_metadata).to have_key("subscriber_number_min")
+          expect(asserted_prefix_metadata).to have_key("subscriber_number_max")
+          expect(asserted_prefix_metadata).to have_key("subscriber_number_pattern")
         end
       end
     end

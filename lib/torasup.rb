@@ -10,7 +10,6 @@ require "torasup/operator"
 require "torasup/location"
 
 module Torasup
-
   module Test
     autoload :Helpers, 'torasup/test/helpers'
   end
@@ -47,6 +46,10 @@ module Torasup
       @pstn_prefixes[prefix] || {}
     end
 
+    def registered_operators
+      configuration.registered_operators
+    end
+
     def registered_operator_prefixes
       @registered_pstn_prefixes.dup
     end
@@ -63,7 +66,12 @@ module Torasup
       @pstn_data.each do |country_id, country_properties|
         operators(country_id).each do |operator, operator_properties|
           operator_prefixes(country_id, operator).each do |operator_prefix, prefix_data|
-            prefix_properties = operator_metadata(country_id, operator).merge(prefix_data)
+            prefix_properties = operator_metadata(
+              country_id, operator
+            ).merge(
+              prefix_defaults(country_properties, operator_properties, prefix_data)
+            ).merge(prefix_data)
+
             @pstn_prefixes[operator_prefix] = prefix_properties
             @registered_pstn_prefixes[operator_prefix] = prefix_properties if operator_registered?(country_id, operator)
           end
@@ -80,7 +88,7 @@ module Torasup
     end
 
     def operator_registered?(country_id, operator)
-      (configuration.registered_operators[country_id] || []).include?(operator)
+      (registered_operators[country_id] || []).include?(operator)
     end
 
     def country_data(country_id)
@@ -111,13 +119,27 @@ module Torasup
       operator_data(country_id, operator)["area_code_prefixes"] || {}
     end
 
+    def prefix_defaults(country_properties, operator_properties, prefix_properties)
+      defaults = {}
+      prefix_type = prefix_properties["type"]
+      [:min, :max, :pattern].each do |prefix_key|
+        result_key = "subscriber_number_#{prefix_key}"
+        default_key = "default_#{prefix_type}_#{result_key}"
+        result_value = prefix_properties[result_key] || operator_properties[default_key] || country_properties[default_key]
+        defaults.merge!(result_key => result_value)
+      end
+      defaults
+    end
+
     def operator_mobile_prefixes(country_id, operator)
       full_prefixes = {}
-      mobile_prefixes = operator_data(country_id, operator)["prefixes"] || {}
-      mobile_prefixes.each do |mobile_prefix|
+      operator_data = operator_data(country_id, operator)
+      mobile_prefixes = array_to_hash(operator_data["prefixes"] || [])
+      mobile_prefixes.each do |mobile_prefix, prefix_metadata|
         full_prefixes[operator_full_prefix(country_id, mobile_prefix)] = {
-          "type" => "mobile", "prefix" => mobile_prefix
-        }
+          "type" => "mobile",
+          "prefix" => mobile_prefix,
+        }.merge(prefix_metadata)
       end
       full_prefixes
     end
@@ -128,14 +150,21 @@ module Torasup
 
     def operator_prefixes(country_id, operator)
       operator_prefixes = operator_mobile_prefixes(country_id, operator)
-      operator_area_code_prefixes(country_id, operator).each do |operator_area_code_prefix|
+      area_code_prefixes = array_to_hash(operator_area_code_prefixes(country_id, operator))
+      area_code_prefixes.each do |operator_area_code_prefix, prefix_metadata|
         area_codes(country_id).each do |area_code, area|
           operator_prefixes[operator_full_prefix(country_id, area_code, operator_area_code_prefix)] = {
-            "type" => "landline", "prefix" => operator_area_code_prefix
-          }
+            "type" => "landline",
+            "prefix" => operator_area_code_prefix,
+            "area_code" => area_code
+          }.merge(prefix_metadata)
         end
       end
       operator_prefixes
+    end
+
+    def array_to_hash(array)
+      array.map { |n| n.is_a?(Hash) ? n : {n => {}} }.reduce(Hash.new, :merge)
     end
   end
 

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Torasup do
-  include PstnHelpers
-
   describe ".configure" do
     describe "#registered_operators=" do
       before do

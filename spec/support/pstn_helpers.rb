@@ -1,13 +1,6 @@
 module PstnHelpers
   include Torasup::Test::Helpers
 
-  RSpec.configure do |config|
-    config.before do
-      clear_pstn
-      clear_registered_operators
-    end
-  end
-
   private
 
   def yaml_file(filename)
@@ -36,5 +29,14 @@ module PstnHelpers
     Torasup.configure do |config|
       config.custom_pstn_data_file = File.join(File.dirname(__FILE__), "../support", "/custom_pstn.yaml")
     end
+  end
+end
+
+RSpec.configure do |config|
+  config.include(PstnHelpers)
+
+  config.before do
+    clear_pstn
+    clear_registered_operators
   end
 end

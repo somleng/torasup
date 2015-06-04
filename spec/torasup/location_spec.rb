@@ -2,8 +2,6 @@ require 'spec_helper'
 
 module Torasup
   describe Location do
-    include PstnHelpers
-
     def with_locations(options = {}, &block)
       location_assertions = {}
       with_pstn_data(options) do |country_id, country_data|

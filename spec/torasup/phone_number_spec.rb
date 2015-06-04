@@ -2,8 +2,6 @@ require 'spec_helper'
 
 module Torasup
   describe PhoneNumber do
-    include PstnHelpers
-
     def with_phone_numbers(options = {}, &block)
       phone_number_assertions = {}
       with_operators(options) do |number_parts, assertions|

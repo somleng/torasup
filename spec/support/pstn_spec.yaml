@@ -12,7 +12,7 @@ kh:
     '26': Kampong Chhnang
     '32': Takeo
     '33': Kampot
-    '34': Sihanoukville
+    '34': Preah Sihanouk
     '35': Koh Kong
     '36': Kep
     '42': Kampong Cham
@@ -36,67 +36,95 @@ kh:
       assertions:
         name: Smart
       prefixes:
-        - '10'
-        - '15'
-        - '16'
-        - '69'
-        - '70'
-        - '81'
-        - '86'
-        - '87'
-        - '93'
-        - '96': "2345678"
-        - '98'
+      - '10'
+      - '15'
+      - '16'
+      - '69'
+      - '70'
+      - '81'
+      - '86'
+      - '87'
+      - '93'
+      - '96': "2345678"
+      - '98'
       area_code_prefixes:
-        - '45'
+      - '45'
+      - '56'
     mobitel:
       assertions:
         name: Mobitel
       prefixes:
-        - '12'
-        - '17'
-        - '77'
-        - '78'
-        - '89'
-        - '92'
-        - '95'
-        - '11'
-        - '61'
-        - '76': "2345678"
-        - '85'
-        - '99'
+      - '11'
+      - '12'
+      - '14'
+      - '17'
+      - '61'
+      - '76': "2345678"
+      - '77'
+      - '78'
+      - '85'
+      - '89'
+      - '92'
+      - '95'
+      - '99'
+      area_code_prefixes:
+      - '3'
+      - '50'
+      - '51'
+      - '52'
+      - '53'
+      - '54'
+      - '55'
     metfone:
       assertions:
         name: Metfone
       prefixes:
-        - '31': "2345678"
-        - '60'
-        - '66'
-        - '67'
-        - '68'
-        - '71': "2345678"
-        - '88': "2345678"
-        - '90'
-        - '97': "2345678"
+      - '31': "2345678"
+      - '60'
+      - '66'
+      - '67'
+      - '68'
+      - '71': "2345678"
+      - '88': "2345678"
+      - '90'
+      - '97': "2345678"
       area_code_prefixes:
-        - '46'
+      - '6': "234567"
+      - '46'
     qb:
       assertions:
         name: Qb
       prefixes:
-        - '13'
-        - '80'
-        - '83'
-        - '84'
+      - '13'
+      - '80'
+      - '83'
+      - '84'
+      area_code_prefixes:
+      - '49'
     excell:
       assertions:
         name: Excell
       prefixes:
-        - '18'
+      - '18'
+      area_code_prefixes:
+      - '48'
     cootel:
       assertions:
         name: CooTel
       prefixes:
-        - '38': "2345678"
+      - '38': "2345678"
       area_code_prefixes:
-        - '47'
+      - '47'
+    camintel:
+      assertions:
+        name: "Camintel"
+      area_code_prefixes:
+      - '9'
+    tc:
+      assertions:
+        name: "Telecom Cambodia"
+      area_code_prefixes:
+        - '2'
+        - '4'
+        - '7'
+        - '8'

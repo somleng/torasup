@@ -14,28 +14,28 @@ gem 'torasup'
 
 And then execute:
 
-```shell
+```
 $ bundle
 ```
 
 Or install it yourself as:
 
-```shell
+```
 $ gem install torasup
 ```
 
 ## Usage
 
-### Examples
+### Returning info about a Phone Number
 
-```shell
+```
 $ irb
 ```
 
 ```ruby
 require 'torasup'
 
-pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
+pn = Torasup::PhoneNumber.new("+855 (0) 62 451 2345")
 
 pn.number
 => "85562451234"
@@ -53,7 +53,7 @@ pn.prefix
 => "45"
 
 pn.local_number
-=> "1234"
+=> "12345"
 
 loc = pn.location
 loc.area
@@ -66,6 +66,20 @@ op.id
 
 op.name
 => "Smart"
+```
+
+### Accessing Metadata by Operator
+
+```ruby
+Torasup::Operator.all["kh"]["metfone"]["mobile_prefixes"]
+=> {"85538"=>{"subscriber_number_min"=>2000000, "subscriber_number_max"=>9999999, "subscriber_number_pattern"=>"[2-9]\\d{6}"}}
+```
+
+### Accessing Metadata by Prefix
+
+```ruby
+Torasup.prefixes["8552345"]
+=> {"country_id"=>"kh", "id"=>"smart", "name"=>"Smart", "subscriber_number_min"=>0, "subscriber_number_max"=>99999, "subscriber_number_pattern"=>"\\d{5}", "type"=>"landline", "prefix"=>"45", "area_code"=>"23"}
 ```
 
 ## Configuration
@@ -101,7 +115,7 @@ Torasup.configure do |config|
   config.custom_pstn_data_file = "my_pstn_data.yaml"
 end
 
-pn = Torasup::PhoneNumber.new("+855 (0) 62 451 234")
+pn = Torasup::PhoneNumber.new("+855 (0) 62 451 2345")
 op = pn.operator
 
 op.id
@@ -120,24 +134,18 @@ op.my_custom_boolean_property
 => true
 ```
 
-### Accessing Operator Metadata
-
-```ruby
-Torasup::Operator.all["kh"]["metfone"]["prefixes"]
-=> ["85597", "85588"]
-```
-
 ### Registering Operators
 
 Sometimes you may only be interested in certain prefixes. For example let's say you want to match phone numbers from a certain operator from the database. You can register operators for this purpose. e.g.
 
 ```ruby
 Torasup.configure do |config|
-  config.register_operators("kh", "metfone")
+  config.register_operators("kh", "cootel")
 end
 
 Torasup::Operator.registered
-=> {"kh"=>{"metfone"=>{"country_id"=>"kh", "id"=>"metfone", "name"=>"Metfone", "prefixes"=>["85597", "85588"]}}}
+=> {"kh"=>{"cootel"=>{"country_id"=>"kh", "id"=>"cootel", "name"=>"CooTel", "mobile_prefixes"=>{"85538"=>{"subscriber_number_min"=>2000000, "subscriber_number_max"=>9999999, "subscriber_number_pattern"=>"[2-9]\\d{6}"}}
+}}}
 ```
 
 ### Default Operators
