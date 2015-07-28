@@ -144,6 +144,14 @@ kh:
           subscriber_number_pattern: "[2-9]\\d{6}"
       area_code_prefixes:
       - '47'
+    emaxx:
+      metadata:
+        name: "EMAXX"
+      prefixes:
+      - '39':
+          subscriber_number_min: 2000000
+          subscriber_number_max: 9999999
+          subscriber_number_pattern: "[2-9]\\d{6}"
     camintel:
       metadata:
         name: "Camintel"

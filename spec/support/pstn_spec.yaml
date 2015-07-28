@@ -115,6 +115,11 @@ kh:
       - '38': "2345678"
       area_code_prefixes:
       - '47'
+    emaxx:
+      assertions:
+        name: "EMAXX"
+      prefixes:
+      - '39': '2345678'
     camintel:
       assertions:
         name: "Camintel"
