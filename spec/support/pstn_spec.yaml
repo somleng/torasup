@@ -101,11 +101,11 @@ kh:
       - '84'
       area_code_prefixes:
       - '49'
-    excell:
+    seatel:
       assertions:
-        name: Excell
+        name: Seatel
       prefixes:
-      - '18'
+      - '18': "9123456"
       area_code_prefixes:
       - '48'
     cootel:
