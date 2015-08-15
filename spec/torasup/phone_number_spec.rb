@@ -18,13 +18,26 @@ module Torasup
       end
     end
 
-    subject { PhoneNumber.new("85512234567") }
+    let(:phone_number) { "85512234567" }
     let(:location) { double(Torasup::Location).as_null_object }
     let(:operator) { double(Torasup::Operator).as_null_object }
+    subject { PhoneNumber.new(phone_number) }
 
     describe "#location" do
       it "should return an instance of Torasup::Location" do
         expect(subject.location).to be_a(Torasup::Location)
+      end
+    end
+
+    describe "#type" do
+      context "for mobile numbers" do
+        let(:phone_number) { "85512236139" }
+        it { expect(subject.type).to eq("mobile") }
+      end
+
+      context "for landline numbers" do
+        let(:phone_number) { "855234512345" }
+        it { expect(subject.type).to eq("landline") }
       end
     end
 

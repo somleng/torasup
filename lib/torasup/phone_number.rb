@@ -1,9 +1,16 @@
 module Torasup
   class PhoneNumber
-    attr_reader :number, :country_code, :country_id, :area_code, :prefix, :local_number, :location, :operator
+    attr_reader :number,
+                :country_code, :country_id,
+                :area_code, :prefix, :local_number, :location,
+                :operator
 
     def initialize(phone_number)
       parse_phone_number(phone_number)
+    end
+
+    def type
+      operator && operator.type
     end
 
     private

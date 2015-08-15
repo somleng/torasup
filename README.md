@@ -40,6 +40,9 @@ pn = Torasup::PhoneNumber.new("+855 (0) 62 451 2345")
 pn.number
 => "85562451234"
 
+pn.type
+=> "landline"
+
 pn.country_code
 => "855"
 
