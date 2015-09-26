@@ -21,9 +21,9 @@ module Torasup
 
     def load_international_dialing_codes!
       @international_dialing_codes = {}
-      ISO3166::Country.all.each do |name, country_id|
-        dialing_code = ISO3166::Country[country_id].country_code
-        @international_dialing_codes[dialing_code] = country_id unless @international_dialing_codes[dialing_code] && !configuration.default_countries.include?(country_id)
+      ISO3166::Country.all.each do |country|
+        dialing_code = country.country_code
+        @international_dialing_codes[dialing_code] = country.alpha2 if !@international_dialing_codes[dialing_code] && !configuration.default_countries.include?(country.alpha2)
       end
     end
 

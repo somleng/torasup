@@ -18,7 +18,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
   gem.require_paths = ["lib"]
 
-  gem.add_runtime_dependency "countries"
+  gem.add_runtime_dependency "countries", '>= 1.1.0'
   gem.add_runtime_dependency "phony", '>= 2.14.14'
   gem.add_runtime_dependency "deep_merge"
 
