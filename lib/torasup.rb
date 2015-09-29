@@ -23,7 +23,7 @@ module Torasup
       @international_dialing_codes = {}
       ISO3166::Country.all.each do |country|
         dialing_code = country.country_code
-        @international_dialing_codes[dialing_code] = country.alpha2 if !@international_dialing_codes[dialing_code] && !configuration.default_countries.include?(country.alpha2)
+        @international_dialing_codes[dialing_code] = country.alpha2 if !@international_dialing_codes[dialing_code] || configuration.default_countries.include?(country.alpha2)
       end
     end
 

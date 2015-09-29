@@ -32,18 +32,31 @@ describe Torasup do
       end
     end
 
-    describe "#default_countries=('['US', 'AU']')" do
-      before do
-        allow(Torasup).to receive(:load_international_dialing_codes!)
+    describe "#default_countries=(value)" do
+      let(:torasup_number) { Torasup::PhoneNumber.new("+1 415-234 5678") }
+
+      context "configuring" do
+        before do
+          allow(Torasup).to receive(:load_international_dialing_codes!)
+        end
+
+        it "should set the default countries and reload the data" do
+          Torasup.configure do |config|
+            expect(Torasup).to receive(:load_international_dialing_codes!)
+            expect(config.default_countries).to eq(["US", "GB", "AU", "IT", "RU", "NO"])
+            config.default_countries = ["US", "GB"]
+            expect(config.default_countries).to eq(["US", "GB"])
+          end
+        end
       end
 
-      it "should set the default countries and reload the data" do
-        Torasup.configure do |config|
-          expect(Torasup).to receive(:load_international_dialing_codes!)
-          expect(config.default_countries).to eq(["US", "GB", "AU", "IT", "RU", "NO"])
-          config.default_countries = ["US", "GB"]
-          expect(config.default_countries).to eq(["US", "GB"])
-        end
+      context "by default" do
+        it { expect(torasup_number.country_id).to eq("us") }
+      end
+
+      context "overriding defaults" do
+        before { Torasup.configure { |config| config.default_countries = ["CA"] } }
+        it { expect(torasup_number.country_id).to eq("ca") }
       end
     end
 
