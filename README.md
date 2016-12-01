@@ -137,6 +137,22 @@ op.my_custom_boolean_property
 => true
 ```
 
+It's also possible to specify multiple custom pstn files independently of each other.
+
+E.g.
+
+```ruby
+Torasup.configure do |config|
+  config.custom_pstn_data_file = "my_pstn_data.yaml"
+end
+
+Torasup.configure do |config|
+  config.custom_pstn_data_file = "my_pstn_data_2.yaml"
+end
+```
+
+This will merge `my_pstn_data.yaml` and `my_pstn_data_2.yaml` together.
+
 ### Registering Operators
 
 Sometimes you may only be interested in certain prefixes. For example let's say you want to match phone numbers from a certain operator from the database. You can register operators for this purpose. e.g.
