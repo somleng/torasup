@@ -28,9 +28,12 @@ module Torasup
     end
 
     def load_pstn_data!
-      @pstn_data = load_yaml_file(File.join(File.dirname(__FILE__), 'torasup/data/pstn.yaml')).deeper_merge(
-        load_yaml_file(configuration.custom_pstn_data_file)
-      )
+      @pstn_data = load_yaml_file(File.join(File.dirname(__FILE__), 'torasup/data/pstn.yaml'))
+      configuration.custom_pstn_data_files.compact.each do |pstn_data_file|
+        @pstn_data.deeper_merge!(
+          load_yaml_file(pstn_data_file)
+        )
+      end
       load_pstn_prefixes!
     end
 

@@ -82,11 +82,27 @@ module Torasup
 
     context "using overridden data" do
       before do
-        configure_with_custom_data
+        configure_with_custom_data(configuration_options)
       end
 
-      it_should_behave_like "an operator" do
-        let(:options) { { :with_custom_pstn_data => true } }
+      context "with a single configuration file" do
+        let(:configuration_options) { {} }
+
+        it_should_behave_like "an operator" do
+          let(:options) { { :with_custom_pstn_data => true } }
+        end
+      end
+
+      context "with multiple configuration files" do
+        let(:configuration_options) { {:multiple_files => true} }
+
+        def assert_overridden_data!
+          torasup_number = Torasup::PhoneNumber.new("85515234567")
+          operator = torasup_number.operator
+          expect(operator.my_custom_property_2).to eq("hello-foo-2")
+        end
+
+        it { assert_overridden_data! }
       end
     end
   end

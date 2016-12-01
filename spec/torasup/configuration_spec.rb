@@ -61,16 +61,38 @@ describe Torasup do
     end
 
     describe "#custom_pstn_data_file=('path_to_yaml_file.yaml')" do
-      before do
+      def setup_expectations
         allow(Torasup).to receive(:load_pstn_data!)
+        expect(Torasup).to receive(:load_pstn_data!)
       end
 
-      it "should set a custom pstn data file and reload the data" do
-        Torasup.configure do |config|
-          expect(Torasup).to receive(:load_pstn_data!)
-          expect(config.custom_pstn_data_file).to be_nil
-          config.custom_pstn_data_file = "foo.yaml"
-          expect(config.custom_pstn_data_file).to eq("foo.yaml")
+      def setup_scenario
+        setup_expectations
+      end
+
+      before do
+        setup_scenario
+      end
+
+      context "setting a custom pstn data file" do
+        it "should set a custom pstn data file and reload the data" do
+          Torasup.configure do |config|
+            expect(config.custom_pstn_data_files).to eq([])
+            config.custom_pstn_data_file = "foo.yaml"
+            expect(config.custom_pstn_data_files).to eq(["foo.yaml"])
+          end
+        end
+      end
+
+      context "setting the custom pstn data file to nil" do
+        it "should clear the pstn data files and reload the data" do
+          Torasup.configure do |config|
+            expect(config.custom_pstn_data_files).to eq([])
+            config.custom_pstn_data_file = "foo.yaml"
+            expect(config.custom_pstn_data_files).to eq(["foo.yaml"])
+            config.custom_pstn_data_file = nil
+            expect(config.custom_pstn_data_files).to eq([])
+          end
         end
       end
     end

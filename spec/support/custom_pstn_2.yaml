@@ -1,0 +1,6 @@
+---
+kh:
+  operators:
+    hello:
+      metadata:
+        my_custom_property_2: hello-foo-2

@@ -25,9 +25,14 @@ module PstnHelpers
     end
   end
 
-  def configure_with_custom_data
-    Torasup.configure do |config|
-      config.custom_pstn_data_file = File.join(File.dirname(__FILE__), "../support", "/custom_pstn.yaml")
+  def configure_with_custom_data(options = {})
+    custom_data_files = ["custom_pstn.yaml"]
+    custom_data_files << "custom_pstn_2.yaml" if options[:multiple_files]
+
+    custom_data_files.each do |custom_data_file|
+      Torasup.configure do |config|
+        config.custom_pstn_data_file = File.join(File.dirname(__FILE__), "../support", "/#{custom_data_file}")
+      end
     end
   end
 end
