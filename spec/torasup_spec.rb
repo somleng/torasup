@@ -10,9 +10,18 @@ describe Torasup do
           prefix = assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
           prefix_metadata = prefixes[prefix]
           local_number = assertions["local_number"]
-          expect(local_number.to_i).to be >= prefix_metadata["subscriber_number_min"]
-          expect(local_number.to_i).to be <= prefix_metadata["subscriber_number_max"]
-          expect(local_number).to match(Regexp.new(prefix_metadata["subscriber_number_pattern"]))
+
+          if subscriber_number_min = prefix_metadata["subscriber_number_min"]
+            expect(local_number.to_i).to be >= subscriber_number_min
+          end
+
+          if subscriber_number_max = prefix_metadata["subscriber_number_max"]
+            expect(local_number.to_i).to be <= subscriber_number_max
+          end
+
+          if subscriber_number_pattern = prefix_metadata["subscriber_number_pattern"]
+            expect(local_number).to match(Regexp.new(subscriber_number_pattern))
+          end
         end
       end
     end

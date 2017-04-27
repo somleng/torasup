@@ -165,3 +165,12 @@ kh:
         - '4'
         - '7'
         - '8'
+so:
+  # https://en.wikipedia.org/wiki/Telecommunications_in_Somaliland
+  international_dialing_code: "252"
+  operators:
+    telesom:
+      metadata:
+        name: "Telesom"
+      prefixes:
+      - '63'

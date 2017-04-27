@@ -7,7 +7,7 @@ module Torasup
       with_pstn_data(options) do |country_id, country_data|
         default_assertions = {"country_id" => country_id}
         location_assertions[country_id] = {}
-        country_data["area_codes"].each do |area_code, area|
+        (country_data["area_codes"] || []).each do |area_code, area|
           location_assertions[country_id][area_code] = default_assertions.merge("area_code" => area_code, "area" => area)
         end
       end

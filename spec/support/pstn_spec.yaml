@@ -133,3 +133,13 @@ kh:
         - '4'
         - '7'
         - '8'
+so:
+  prefix: "252"
+  local_number: "2345678"
+  operators:
+    #https://en.wikipedia.org/wiki/Telecommunications_in_Somaliland
+    telesom:
+      assertions:
+        name: "Telesom"
+      prefixes:
+      - '63'
