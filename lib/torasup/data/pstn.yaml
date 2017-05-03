@@ -196,7 +196,7 @@ so:
         name: "Somtel"
       prefixes:
       - '65'
-    hormuund:
+    hormuud:
       # https://en.wikipedia.org/wiki/Hormuud_Telecom
       metadata:
         name: "Hormuud"
