@@ -55,7 +55,7 @@ kh:
         name: Mobitel
       prefixes:
       - '11'
-      - '12'
+      - '12': "1234567"
       - '14'
       - '17'
       - '61'
@@ -137,9 +137,34 @@ so:
   prefix: "252"
   local_number: "2345678"
   operators:
-    #https://en.wikipedia.org/wiki/Telecommunications_in_Somaliland
+    # https://en.wikipedia.org/wiki/Telecommunications_in_Somaliland
     telesom:
+      # https://en.wikipedia.org/wiki/Telesom
       assertions:
         name: "Telesom"
       prefixes:
       - '63'
+    golis:
+      # https://en.wikipedia.org/wiki/Golis_Telecom_Somalia
+      assertions:
+        name: "Golis"
+      prefixes:
+      - '90'
+    nationlink:
+      # https://en.wikipedia.org/wiki/NationLink_Telecom
+      assertions:
+        name: "NationLink"
+      prefixes:
+      - '69'
+    somtel:
+      # https://en.wikipedia.org/wiki/Somtel
+      assertions:
+        name: "Somtel"
+      prefixes:
+      - '65'
+    hormuund:
+      # https://en.wikipedia.org/wiki/Hormuud_Telecom
+      assertions:
+        name: "Hormuud"
+      prefixes:
+      - '61'

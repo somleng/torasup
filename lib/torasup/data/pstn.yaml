@@ -61,7 +61,10 @@ kh:
         name: "Mobitel"
       prefixes:
       - '11'
-      - '12'
+      - '12':
+          subscriber_number_min: 1000000
+          subscriber_number_max: 9999999
+          subscriber_number_pattern: "([2-9]\\d{5})|(1\\d{6})"
       - '14'
       - '17'
       - '61'
@@ -170,7 +173,32 @@ so:
   international_dialing_code: "252"
   operators:
     telesom:
+      # https://en.wikipedia.org/wiki/Telecommunications_in_Somaliland
       metadata:
         name: "Telesom"
       prefixes:
       - '63'
+    golis:
+      # https://en.wikipedia.org/wiki/Golis_Telecom_Somalia
+      metadata:
+        name: "Golis"
+      prefixes:
+      - '90'
+    nationlink:
+      # https://en.wikipedia.org/wiki/NationLink_Telecom
+      metadata:
+        name: "NationLink"
+      prefixes:
+      - '69'
+    somtel:
+      # https://en.wikipedia.org/wiki/Somtel
+      metadata:
+        name: "Somtel"
+      prefixes:
+      - '65'
+    hormuund:
+      # https://en.wikipedia.org/wiki/Hormuud_Telecom
+      metadata:
+        name: "Hormuud"
+      prefixes:
+      - '61'
