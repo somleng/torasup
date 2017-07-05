@@ -147,9 +147,9 @@ kh:
           subscriber_number_pattern: "[2-9]\\d{6}"
       area_code_prefixes:
       - '47'
-    emaxx:
+    kingtel:
       metadata:
-        name: "EMAXX"
+        name: "Kingtel"
       prefixes:
       - '39':
           subscriber_number_min: 2000000

@@ -115,9 +115,9 @@ kh:
       - '38': "2345678"
       area_code_prefixes:
       - '47'
-    emaxx:
+    kingtel:
       assertions:
-        name: "EMAXX"
+        name: "Kingtel"
       prefixes:
       - '39': '2345678'
     camintel:
