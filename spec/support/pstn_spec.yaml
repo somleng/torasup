@@ -155,16 +155,21 @@ so:
       assertions:
         name: "NationLink"
       prefixes:
+      - '67' # Nationlink Mogadishu
+      - '68' # Nationlink Mogadishu
       - '69'
     somtel:
       # https://en.wikipedia.org/wiki/Somtel
       assertions:
         name: "Somtel"
       prefixes:
+      - '62' # Somtel Mogadishu
       - '65'
+      - '66' # Somtel Puntland
     hormuud:
       # https://en.wikipedia.org/wiki/Hormuud_Telecom
       assertions:
         name: "Hormuud"
       prefixes:
       - '61'
+      - '64'
