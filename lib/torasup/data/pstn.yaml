@@ -207,3 +207,16 @@ so:
       prefixes:
       - '61'
       - '64'
+sl:
+  # https://en.wikipedia.org/wiki/Telecommunications_in_Sierra_Leone
+  # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Middle_East_and_Africa#Sierra_Leone
+  international_dialing_code: "232"
+  operators:
+    africell:
+      # https://en.wikipedia.org/wiki/Africell
+      metadata:
+        name: "Africell"
+      prefixes:
+      - '30'
+      - '77'
+      - '88'

@@ -173,3 +173,17 @@ so:
       prefixes:
       - '61'
       - '64'
+sl:
+  prefix: "232"
+  local_number: "234567"
+  operators:
+    # https://en.wikipedia.org/wiki/Telecommunications_in_Sierra_Leone
+    # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Middle_East_and_Africa#Sierra_Leone
+    africell:
+      # https://en.wikipedia.org/wiki/Africell
+      assertions:
+        name: "Africell"
+      prefixes:
+      - '30'
+      - '77'
+      - '88'
