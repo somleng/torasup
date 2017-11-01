@@ -1,12 +1,11 @@
-sudo: false
 language: ruby
-rvm:
- - 2.4.1
+sudo: false
+env:
+  global:
+    - START_SIMPLECOV=1
 addons:
   code_climate:
     repo_token:
       secure: "Xk7T8ZyorwO85WfXC7OB2HfIM9Z/GO85u97P1qwXukL1ZjjDffr3mzhh706AVA9JPpTQGDbLNU5aStxX6NVLjBXyflvEpSGmYLl0aHDVikcNvZA/jBGlIfJH/6/V5bJA11X3V2/9FeO5l2fPkusWxbcpAIowe7xclDXfujdoNGk="
-env:
-  - START_SIMPLECOV=1
 after_success:
   - bundle exec codeclimate-test-reporter
