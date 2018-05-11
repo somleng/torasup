@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 module Torasup
   describe Operator do
@@ -11,7 +11,7 @@ module Torasup
       it "should return the operators with their metadata" do
         operators = Operator.send(method)
         operators = Operator.send(method) # run it twice to highlight the duplication problem
-        with_operators do |number_parts, assertions|
+        with_operators do |_number_parts, assertions|
           operator = operators[assertions["country_id"]][assertions["id"]]
           expect(operator["country_id"]).to eq(assertions["country_id"])
           expect(operator["id"]).to eq(assertions["id"])
@@ -53,7 +53,7 @@ module Torasup
           let(:method) { :registered }
 
           def with_operators(&block)
-            super(:only_registered => {sample_operator[0] => [sample_operator[1]]}, &block)
+            super(only_registered: { sample_operator[0] => [sample_operator[1]] }, &block)
           end
         end
       end
@@ -65,10 +65,10 @@ module Torasup
           subject = Operator.new(*number_parts)
           assertions.each do |method, assertion|
             args = []
-            args << {:interpolation => nil} unless subject.respond_to?(method)
+            args << { interpolation: nil } unless subject.respond_to?(method)
             result = subject.send(method, *args)
             result_error = result.nil? ? "nil" : "'#{result}'"
-            expect(result).to(eq(interpolated_assertion(assertion, :interpolation => nil)), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
+            expect(result).to(eq(interpolated_assertion(assertion, interpolation: nil)), "expected Operator.new('#{number_parts}').#{method} to return '#{assertion}' but got #{result_error}")
           end
         end
       end
@@ -87,14 +87,19 @@ module Torasup
 
       context "with a single configuration file" do
         let(:configuration_options) { {} }
+        let(:options) { { with_custom_pstn_data: true } }
 
-        it_should_behave_like "an operator" do
-          let(:options) { { :with_custom_pstn_data => true } }
+        it_should_behave_like "an operator"
+
+        it "should handle wildcard prefixes" do
+          torasup_number = Torasup::PhoneNumber.new("5582999489999")
+          operator = torasup_number.operator
+          expect(operator.id).to eq("mundivox")
         end
       end
 
       context "with multiple configuration files" do
-        let(:configuration_options) { {:multiple_files => true} }
+        let(:configuration_options) { { multiple_files: true } }
 
         def assert_overridden_data!
           torasup_number = Torasup::PhoneNumber.new("85515234567")

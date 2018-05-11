@@ -1,4 +1,4 @@
-require 'spec_helper'
+require "spec_helper"
 
 describe Torasup do
   describe "#prefixes" do
@@ -6,7 +6,7 @@ describe Torasup do
 
     context "metadata" do
       it "should include the correct min, max and pattern values" do
-        with_operators do |number_parts, assertions|
+        with_operators do |_number_parts, assertions|
           prefix = assertions["country_code"].to_s + assertions["area_code"].to_s + assertions["prefix"].to_s
           prefix_metadata = prefixes[prefix]
           local_number = assertions["local_number"]

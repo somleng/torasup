@@ -17,3 +17,9 @@ kh:
       - '87'
       area_code_prefixes:
       - '45'
+br:
+  operators:
+    mundivox:
+      metadata:
+        name: "Mundivox"
+      prefixes: "*"

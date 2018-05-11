@@ -1,5 +1,5 @@
 class Configuration
-  DEFAULT_COUNTRIES = ["US", "GB", "AU", "IT", "RU", "NO"]
+  DEFAULT_COUNTRIES = %w[US GB AU IT RU NO].freeze
   attr_accessor :registered_operators, :default_countries, :custom_pstn_data_files
 
   def initialize
