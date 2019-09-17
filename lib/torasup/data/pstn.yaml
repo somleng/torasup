@@ -220,6 +220,14 @@ sl:
       - '30'
       - '77'
       - '88'
+    orange:
+      metadata:
+        name: "Orange"
+      prefixes:
+      - '75'
+      - '76'
+      - '78'
+      - '79'
 br:
   # https://en.wikipedia.org/wiki/Telecommunications_in_Brazil
   # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Americas#Brazil
