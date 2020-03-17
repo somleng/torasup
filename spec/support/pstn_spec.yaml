@@ -187,3 +187,45 @@ sl:
       - '30'
       - '77'
       - '88'
+
+gh:
+  prefix: "233"
+  local_number: "2437103"
+  operators:
+    # https://en.m.wikipedia.org/wiki/Telephone_numbers_in_Ghana
+    globacom:
+      # https://en.wikipedia.org/wiki/Glo_(company)
+      assertions:
+        name: "Globacom"
+      prefixes:
+      - '23'
+    mtn:
+      # https://en.wikipedia.org/wiki/MTN_Group
+      assertions:
+        name: "MTN"
+      prefixes:
+      - '24'
+      - '54'
+      - '55'
+    airtel_tigo:
+      # https://en.wikipedia.org/wiki/Airtel_Africa#Tigo_Ghana_merger
+      assertions:
+        name: "AirtelTigo"
+      prefixes:
+      - '27'
+      - '57'
+      - '26'
+      - '56'
+    expresso:
+      # https://en.wikipedia.org/wiki/Expresso_Telecom
+      assertions:
+        name: "Expresso"
+      prefixes:
+      - '28'
+    vodafone:
+      # https://en.wikipedia.org/wiki/Vodafone_Ghana
+      assertions:
+        name: "Vodafone"
+      prefixes:
+      - '20'
+      - '50'

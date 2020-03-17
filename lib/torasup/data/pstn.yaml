@@ -232,3 +232,45 @@ br:
   # https://en.wikipedia.org/wiki/Telecommunications_in_Brazil
   # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Americas#Brazil
   international_dialing_code: "55"
+
+gh:
+  international_dialing_code: "233"
+  # https://en.m.wikipedia.org/wiki/Telephone_numbers_in_Ghana
+  operators:
+    globacom:
+      # https://en.wikipedia.org/wiki/Glo_(company)
+      metadata:
+        name: "Globacom"
+      prefixes:
+      - '23'
+    mtn:
+      # https://en.wikipedia.org/wiki/MTN_Group
+      metadata:
+        name: "MTN"
+      prefixes:
+      - '24'
+      - '54'
+      - '55'
+      - '59'
+    airtel_tigo:
+      # https://en.wikipedia.org/wiki/Airtel_Africa#Tigo_Ghana_merger
+      metadata:
+        name: "AirtelTigo"
+      prefixes:
+      - '27'
+      - '57'
+      - '26'
+      - '56'
+    expresso:
+      # https://en.wikipedia.org/wiki/Expresso_Telecom
+      metadata:
+        name: "Expresso"
+      prefixes:
+      - '28'
+    vodafone:
+      # https://en.wikipedia.org/wiki/Vodafone_Ghana
+      metadata:
+        name: "Vodafone"
+      prefixes:
+      - '20'
+      - '50'
