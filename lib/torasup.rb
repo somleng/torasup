@@ -11,7 +11,8 @@ require "torasup/location"
 
 module Torasup
   ALL_PREFIXES_KEYS = ["*", "all"].freeze
-  DEFAULT_PREFIXES = ("10".."99").to_a.freeze
+  DEFAULT_OPERATOR_PREFIX_MIN = "10".freeze
+  DEFAULT_OPERATOR_PREFIX_MAX = "99".freeze
 
   module Test
     autoload :Helpers, "torasup/test/helpers"
@@ -26,7 +27,9 @@ module Torasup
       @international_dialing_codes = {}
       ISO3166::Country.all.each do |country|
         dialing_code = country.country_code
-        @international_dialing_codes[dialing_code] = country.alpha2 if !@international_dialing_codes[dialing_code] || configuration.default_countries.include?(country.alpha2)
+        if !@international_dialing_codes[dialing_code] || configuration.default_countries.include?(country.alpha2)
+          @international_dialing_codes[dialing_code] = country.alpha2
+        end
       end
     end
 
@@ -79,7 +82,9 @@ module Torasup
             ).merge(prefix_data)
 
             @pstn_prefixes[operator_prefix] = prefix_properties
-            @registered_pstn_prefixes[operator_prefix] = prefix_properties if operator_registered?(country_id, operator)
+            if operator_registered?(country_id, operator)
+              @registered_pstn_prefixes[operator_prefix] = prefix_properties
+            end
           end
         end
       end
@@ -140,8 +145,13 @@ module Torasup
     def operator_mobile_prefixes(country_id, operator)
       full_prefixes = {}
       operator_data = operator_data(country_id, operator)
-      prefixes = DEFAULT_PREFIXES if operator_data["prefixes"].is_a?(String) && ALL_PREFIXES_KEYS.include?(operator_data["prefixes"])
-      prefixes ||= operator_data["prefixes"] || []
+      if operator_data["prefixes"].is_a?(String) && ALL_PREFIXES_KEYS.include?(operator_data["prefixes"])
+        operator_prefix_min = country_data(country_id).fetch("operator_prefix_min", DEFAULT_OPERATOR_PREFIX_MIN)
+        operator_prefix_max = country_data(country_id).fetch("operator_prefix_max", DEFAULT_OPERATOR_PREFIX_MAX)
+        prefixes = (operator_prefix_min.to_s..operator_prefix_max).to_a
+      end
+      prefixes ||= operator_data["prefixes"]
+      prefixes ||= []
       mobile_prefixes = array_to_hash(prefixes)
       mobile_prefixes.each do |mobile_prefix, prefix_metadata|
         full_prefixes[operator_full_prefix(country_id, mobile_prefix)] = {

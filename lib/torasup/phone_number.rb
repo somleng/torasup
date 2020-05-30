@@ -17,6 +17,7 @@ module Torasup
 
     def parse_phone_number(number)
       raise "Not a vaild number" unless Phony.plausible?(number)
+
       @number = Phony.normalize(number)
       number_parts = split_number
       @country_code = number_parts.shift

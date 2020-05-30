@@ -3,8 +3,6 @@
 Retuns metadata about a phone number such as operator info, area code and more.
 
 [![Build Status](https://travis-ci.org/somleng/torasup.png)](https://travis-ci.org/somleng/torasup)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/5598e3554335eb385bd8/test_coverage)](https://codeclimate.com/github/somleng/torasup/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/5598e3554335eb385bd8/maintainability)](https://codeclimate.com/github/somleng/torasup/maintainability)
 
 ## Installation
 

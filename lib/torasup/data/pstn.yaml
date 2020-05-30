@@ -233,6 +233,12 @@ br:
   # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Americas#Brazil
   international_dialing_code: "55"
 
+in:
+  # https://en.wikipedia.org/wiki/Mobile_telephone_numbering_in_India
+  international_dialing_code: "91"
+  operator_prefix_min: "6000"
+  operator_prefix_max: "9999"
+
 gh:
   international_dialing_code: "233"
   # https://en.m.wikipedia.org/wiki/Telephone_numbers_in_Ghana

@@ -17,6 +17,14 @@ kh:
       - '87'
       area_code_prefixes:
       - '45'
+
+in:
+  operators:
+    imimobile:
+      metadata:
+        name: "IMImobile"
+      prefixes: "*"
+
 br:
   operators:
     mundivox:

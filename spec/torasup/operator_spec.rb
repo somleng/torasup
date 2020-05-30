@@ -91,10 +91,16 @@ module Torasup
 
         it_should_behave_like "an operator"
 
-        it "should handle wildcard prefixes" do
+        it "handles default prefixes" do
           torasup_number = Torasup::PhoneNumber.new("5582999489999")
           operator = torasup_number.operator
           expect(operator.id).to eq("mundivox")
+        end
+
+        it "handles long prefixes" do
+          torasup_number = Torasup::PhoneNumber.new("919560234567")
+          operator = torasup_number.operator
+          expect(operator.id).to eq("imimobile")
         end
       end
 
