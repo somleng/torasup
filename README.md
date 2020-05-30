@@ -2,7 +2,7 @@
 
 Retuns metadata about a phone number such as operator info, area code and more.
 
-[![Build Status](https://travis-ci.org/somleng/torasup.png)](https://travis-ci.org/somleng/torasup)
+![Build](https://github.com/somleng/torasup/workflows/Build/badge.svg)
 
 ## Installation
 
