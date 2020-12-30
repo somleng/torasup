@@ -233,6 +233,9 @@ br:
   # https://en.wikipedia.org/wiki/List_of_mobile_network_operators_of_the_Americas#Brazil
   international_dialing_code: "55"
 
+mx:
+  international_dialing_code: "52"
+
 in:
   # https://en.wikipedia.org/wiki/Mobile_telephone_numbering_in_India
   international_dialing_code: "91"
