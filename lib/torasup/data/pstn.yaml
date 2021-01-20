@@ -236,6 +236,9 @@ br:
 mx:
   international_dialing_code: "52"
 
+gt:
+  international_dialing_code: "502"
+
 in:
   # https://en.wikipedia.org/wiki/Mobile_telephone_numbering_in_India
   international_dialing_code: "91"
