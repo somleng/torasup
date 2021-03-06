@@ -236,6 +236,9 @@ br:
 mx:
   international_dialing_code: "52"
 
+gl:
+  international_dialing_code: "299"
+
 gt:
   international_dialing_code: "502"
 
